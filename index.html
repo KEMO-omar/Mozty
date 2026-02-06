@@ -134,11 +134,6 @@
             <h2 style="margin:0">محاضرات العمالقة 🍌</h2>
         </div>
         <div id="lectures-container"></div>
-        <div class="glass" style="border: 2px dashed var(--danger); margin-top:30px; text-align:center">
-            <h3 style="color:var(--danger)">🏆 الاختبار الشامل النهائي</h3>
-            <p>امتحان الـ 50 سؤال - لا يفتحه إلا الوحوش</p>
-            <button class="neo-btn" style="background:var(--danger)" onclick="app.startFinalQuiz()">بدأ الاختبار النهائي 🍌</button>
-        </div>
     </div>
 
     <div id="vaultPage" class="page">
@@ -184,9 +179,26 @@
         <i class="fas fa-user-cog" onclick="show('vault')"></i>
         <i class="fas fa-shield-alt" id="adm-shield" style="display:none" onclick="show('admin')"></i>
         <i class="fas fa-sign-out-alt" onclick="app.logout()"></i>
-    </nav>
+            </nav>
+                <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, set, get, update, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-    <script>
+        // إعدادات Firebase الخاصة بك
+        const firebaseConfig = {
+            apiKey: "AIzaSyBeFBDq6UQx66dkodgBIskwGYhKFiA4m9c",
+            authDomain: "moza2026-805ac.firebaseapp.com",
+            databaseURL: "https://moza2026-805ac-default-rtdb.firebaseio.com",
+            projectId: "moza2026-805ac",
+            storageBucket: "moza2026-805ac.firebasestorage.app",
+            messagingSenderId: "90178845501",
+            appId: "1:90178845501:web:93600ba3fec547f58fa354"
+        };
+
+        const fApp = initializeApp(firebaseConfig);
+        const db = getDatabase(fApp);
+
+        // الثوابت والبيانات
         const GOVS = ["القاهرة", "الجيزة", "الإسكندرية", "الدقهلية", "البحر الأحمر", "البحيرة", "الفيوم", "الغربية", "الإسماعيلية", "المنوفية", "المنيا", "القليوبية", "الوادي الجديد", "السويس", "اسوان", "اسيوط", "بني سويف", "بورسعيد", "دمياط", "الشرقية", "جنوب سيناء", "كفر الشيخ", "مطروح", "الأقصر", "قنا", "شمال سيناء", "سوهاج"];
         
         const DATA = {
@@ -205,49 +217,66 @@
             }))
         };
 
-        const app = {
+        window.app = {
             user: null, cart: [],
             init: function() {
                 const govSelects = [document.getElementById('regGov'), document.getElementById('editGov')];
                 govSelects.forEach(s => {
-                    GOVS.forEach(g => {
-                        let opt = document.createElement('option');
-                        opt.value = opt.text = g; s.add(opt);
-                    });
+                    if(s) {
+                        GOVS.forEach(g => {
+                            let opt = document.createElement('option');
+                            opt.value = opt.text = g; s.add(opt);
+                        });
+                    }
                 });
             },
             alert: function(title, text, icon) {
                 Swal.fire({ title, text, icon, confirmButtonColor: '#00f2ff', background: '#050508', color: '#fff' });
             },
-            signup: function() {
+            signup: async function() {
                 const phone = document.getElementById('regPhone').value;
-                if(phone.length < 11) return this.alert("خطأ!", "رقم الموبايل غير صحيح يا موزة!", "error");
+                if(phone.length < 11) return this.alert("خطأ!", "رقم الموبايل غير صحيح!", "error");
+                
                 const u = {
                     name: document.getElementById('regName').value,
                     phone: phone, nid: document.getElementById('regNID').value,
                     gov: document.getElementById('regGov').value,
                     address: document.getElementById('regAddress').value,
                     pass: document.getElementById('regPass').value,
-                    balance: 0, owned: []
+                    balance: 0, owned: ["none"]
                 };
-                localStorage.setItem('u_' + phone, JSON.stringify(u));
-                this.alert("تم القبول!", "أهلاً بك في جيش موزتي 2026 🍌", "success");
-                show('login');
+                
+                try {
+                    await set(ref(db, 'users/' + phone), u);
+                    this.alert("تم القبول!", "أهلاً بك في جيش موزتي 2026 🍌", "success");
+                    show('login');
+                } catch(e) { this.alert("خطأ", "فشل الاتصال بالسيرفر", "error"); }
             },
-            login: function() {
+            login: async function() {
                 const p = document.getElementById('loginPhone').value;
                 const pass = document.getElementById('loginPass').value;
-                const u = JSON.parse(localStorage.getItem('u_' + p));
-                if(u && u.pass === pass) {
-                    this.user = u; this.sync();
-                    show('dash');
-                    document.getElementById('navbar').style.display = 'flex';
-                    if(p === "01159562785") document.getElementById('adm-shield').style.display = 'block';
-                } else this.alert("عذراً!", "بياناتك غلط يا بطل!", "error");
+                
+                const snap = await get(ref(db, 'users/' + p));
+                if(snap.exists()) {
+                    const u = snap.val();
+                    if(u.pass === pass) {
+                        this.user = u;
+                        this.sync();
+                        show('dash');
+                        document.getElementById('navbar').style.display = 'flex';
+                        if(p === "01159562785") document.getElementById('adm-shield').style.display = 'block';
+                        
+                        onValue(ref(db, 'users/' + p), (s) => {
+                            if(s.exists()) {
+                                this.user = s.val();
+                                document.getElementById('u-balance').innerText = this.user.balance;
+                                this.renderStore();
+                            }
+                        });
+                    } else this.alert("عذراً!", "كلمة السر غلط!", "error");
+                } else this.alert("خطأ", "الرقم غير مسجل!", "error");
             },
             sync: function() {
-                // إعادة تحميل بيانات المستخدم من التخزين للتأكد من تحديث الرصيد من قبل الأدمن
-                this.user = JSON.parse(localStorage.getItem('u_' + this.user.phone));
                 document.getElementById('u-name').innerText = this.user.name + " 🍌";
                 document.getElementById('u-location').innerText = "📍 " + this.user.gov;
                 document.getElementById('u-balance').innerText = this.user.balance;
@@ -255,10 +284,10 @@
                 document.getElementById('editGov').value = this.user.gov;
                 document.getElementById('editAddress').value = this.user.address;
                 this.renderStore();
-            },
-            renderStore: function() {
+            } 
+                              renderStore: function() {
                 const cList = document.getElementById('course-list');
-                const isBought = this.user.owned.includes(DATA.course.id);
+                const isBought = (this.user.owned || []).includes(DATA.course.id);
                 cList.innerHTML = `
                     <div class="glass" style="display:flex; justify-content:space-between; align-items:center; border-right:5px solid var(--a)">
                         <div><b>${DATA.course.name}</b><br><small>${DATA.course.price} ج.م</small></div>
@@ -294,31 +323,6 @@
             viewVideo: function(url) {
                 Swal.fire({ html: `<iframe width="100%" height="300" src="${url}" frameborder="0" allowfullscreen></iframe>`, showConfirmButton: false, background: '#000' });
             },
-            startFinalQuiz: function() {
-                this.runQuiz();
-            },
-            runQuiz: function() {
-                const questions = [
-                    { q: "ما هو الرمز الكيميائي للذهب؟", a: ["Au", "Ag", "Fe", "Cu"], correct: 0 },
-                    { q: "العنصر الانتقالي الذي يتميز بأعلى حالة أكسدة هو؟", a: ["الحديد", "المنجنيز", "السكانديوم", "النحاس"], correct: 1 },
-                    { q: "ما هي أصل كلمة موزة في الكيمياء؟", a: ["عنصر مشع", "رابطة تساهمية", "اختراع مستر موزة", "فاكهة"], correct: 2 }
-                ];
-                let current = 0; let score = 0;
-                const showQ = () => {
-                    const q = questions[current];
-                    Swal.fire({
-                        title: `سؤال ${current+1}`,
-                        html: `<div style="text-align:right"><b>${q.q}</b><br><br>${q.a.map((opt, i) => `<div class="quiz-option" onclick="Swal.clickConfirm(); window.lastChoice=${i}">${opt}</div>`).join('')}</div>`,
-                        showConfirmButton: false, allowOutsideClick: false
-                    }).then(() => {
-                        if(window.lastChoice === q.correct) score++;
-                        current++;
-                        if(current < questions.length) showQ();
-                        else this.alert("النتيجة 🍌", `حصلت على ${score} من ${questions.length}.. بطل!`, "success");
-                    });
-                };
-                showQ();
-            },
             addToCart: function(id) {
                 const item = (id === 'course') ? DATA.course : DATA.books.find(b => b.id === id);
                 if(this.cart.find(i => i.id === item.id)) return this.alert("تنبيه!", "الحاجة دي في السلة!", "info");
@@ -339,67 +343,60 @@
                 document.getElementById('cart-total-box').style.display = this.cart.length ? 'block' : 'none';
             },
             removeFromCart: function(i) { this.cart.splice(i, 1); this.updateCart(); },
-            checkout: function() {
+            checkout: async function() {
                 let total = 0; this.cart.forEach(i => total += i.price);
                 if(this.user.balance < total) return this.alert("رصيد ناقص!", "اشحن محفظتك بالتواصل مع الآدمن!", "warning");
-                this.user.balance -= total;
+                
+                const newBalance = this.user.balance - total;
+                const newOwned = [...(this.user.owned || []), ...this.cart.map(i => i.id)];
+                
                 let bookNames = []; let hasBooks = false;
                 this.cart.forEach(item => {
-                    this.user.owned.push(item.id);
                     if(item.id.startsWith('b')) { bookNames.push(item.name); hasBooks = true; }
                 });
-                if(hasBooks) this.sendToWhatsAppOrder(bookNames, total);
-                this.cart = []; this.save(); this.sync();
-                this.alert("مبروك!", "تم الشراء بنجاح!", "success"); show('dash');
-            },
-            sendToWhatsAppOrder: function(books, total) {
-                const msg = `طلب جديد 🍌%0Aالاسم: ${this.user.name}%0Aالمحافظة: ${this.user.gov}%0Aالعنوان: ${this.user.address}%0Aالكتب: ${books.join(' - ')}%0Aالإجمالي: ${total} ج.م`;
-                window.open(`https://wa.me/201159562785?text=${msg}`);
+
+                try {
+                    await update(ref(db, 'users/' + this.user.phone), { balance: newBalance, owned: newOwned });
+                    if(hasBooks) {
+                        const msg = `طلب جديد 🍌%0Aالاسم: ${this.user.name}%0Aالمحافظة: ${this.user.gov}%0Aالعنوان: ${this.user.address}%0Aالكتب: ${bookNames.join(' - ')}%0Aالإجمالي: ${total} ج.م`;
+                        window.open(`https://wa.me/201159562785?text=${msg}`);
+                    }
+                    this.cart = []; this.updateCart();
+                    this.alert("مبروك!", "تم الشراء بنجاح!", "success"); show('dash');
+                } catch(e) { this.alert("خطأ", "حدث خطأ أثناء الدفع", "error"); }
             },
             contactForCharge: function() {
                 const msg = `طلب شحن محفظة 🍌%0Aالاسم: ${this.user.name}%0Aرقمي المسجل: ${this.user.phone}%0Aمحتاج أشحن رصيدي يا مستر موزة!`;
                 window.open(`https://wa.me/201159562785?text=${msg}`);
             },
-            adminUpdateBalance: function() {
+            adminUpdateBalance: async function() {
                 const phone = document.getElementById('adm-user-phone').value;
-                const newBal = document.getElementById('adm-new-balance').value;
-                const u = JSON.parse(localStorage.getItem('u_' + phone));
-                if(u) {
-                    u.balance = parseInt(newBal);
-                    localStorage.setItem('u_' + phone, JSON.stringify(u));
-                    this.alert("تم التحديث!", `تم تعديل رصيد ${u.name} إلى ${newBal} ج بنجاح!`, "success");
-                    document.getElementById('adm-user-phone').value = '';
-                    document.getElementById('adm-new-balance').value = '';
-                } else this.alert("خطأ!", "رقم الطالب ده مش موجود!", "error");
+                const newBal = parseInt(document.getElementById('adm-new-balance').value);
+                try {
+                    await update(ref(db, 'users/' + phone), { balance: newBal });
+                    this.alert("تم التحديث!", `تم تعديل رصيد الرقم ${phone} بنجاح!`, "success");
+                } catch(e) { this.alert("خطأ", "تأكد من رقم الطالب!", "error"); }
             },
-            logout: function() {
-                Swal.fire({
-                    title: 'ماشي يا موزة؟ 🍌',
-                    text: 'متاكد انك عايز تسيبني؟',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'لازم أمشي',
-                    cancelButtonText: 'خلاص قاعد'
-                }).then((r) => { if (r.isConfirmed) location.reload(); });
-            },
-            save: function() { localStorage.setItem('u_' + this.user.phone, JSON.stringify(this.user)); },
-            updateProfile: function() {
-                this.user.name = document.getElementById('editName').value;
-                this.user.gov = document.getElementById('editGov').value;
-                this.user.address = document.getElementById('editAddress').value;
-                this.save(); this.sync();
+            logout: function() { location.reload(); },
+            updateProfile: async function() {
+                const updated = {
+                    name: document.getElementById('editName').value,
+                    gov: document.getElementById('editGov').value,
+                    address: document.getElementById('editAddress').value
+                };
+                await update(ref(db, 'users/' + this.user.phone), updated);
                 this.alert("تم!", "تحدثت بياناتك!", "success");
             }
         };
 
-        function show(id) {
+        window.show = function(id) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(id + 'Page').classList.add('active');
             document.querySelectorAll('nav i').forEach(i => i.classList.remove('active-nav'));
             const navIcon = document.querySelector(`nav i[onclick*="${id}"]`);
             if(navIcon) navIcon.classList.add('active-nav');
             window.scrollTo(0,0);
-        }
+        };
 
         app.init();
     </script>
