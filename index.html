@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>منصة موزتي 2026 | النسخة الاحترافية 🍌</title>
+    <title>منصة موزتي 2026 | الشحن المباشر 🍌</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Orbitron:wght@800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -150,9 +150,9 @@
             <button class="neo-btn" style="background:var(--success)" onclick="app.updateProfile()">حفظ التعديلات</button>
         </div>
         <h2 class="section-title">💳 شحن المحفظة</h2>
-        <div class="glass">
-            <input type="text" id="chargeInput" placeholder="أدخل كود الشحن (MOZA-XXXX)">
-            <button class="neo-btn" onclick="app.redeemCode()">شحن الرصيد ⚡</button>
+        <div class="glass" style="text-align:center">
+            <p>لشحن رصيدك، تواصل مع مستر موزة مباشرة عبر الواتساب</p>
+            <button class="neo-btn" onclick="app.contactForCharge()">تواصل للشحن الآن ⚡</button>
         </div>
     </div>
 
@@ -170,10 +170,11 @@
 
     <div id="adminPage" class="page">
         <div class="glass">
-            <h3>توليد أكواد شحن 🍌</h3>
-            <input type="number" id="adm-amt" placeholder="المبلغ">
-            <button class="neo-btn" onclick="app.genVoucher()">إنتاج كود</button>
-            <div id="v-list" style="margin-top:20px; font-family:monospace; color:var(--a)"></div>
+            <h3>لوحة التحكم السرية 🍌</h3>
+            <p>تعديل رصيد مستخدم يدوياً</p>
+            <input type="tel" id="adm-user-phone" placeholder="رقم موبايل الطالب">
+            <input type="number" id="adm-new-balance" placeholder="الرصيد الجديد">
+            <button class="neo-btn" onclick="app.adminUpdateBalance()">تحديث الرصيد فوراً</button>
         </div>
     </div>
 
@@ -206,7 +207,6 @@
 
         const app = {
             user: null, cart: [],
-            vouchers: JSON.parse(localStorage.getItem('vouchers')) || {},
             init: function() {
                 const govSelects = [document.getElementById('regGov'), document.getElementById('editGov')];
                 govSelects.forEach(s => {
@@ -246,6 +246,8 @@
                 } else this.alert("عذراً!", "بياناتك غلط يا بطل!", "error");
             },
             sync: function() {
+                // إعادة تحميل بيانات المستخدم من التخزين للتأكد من تحديث الرصيد من قبل الأدمن
+                this.user = JSON.parse(localStorage.getItem('u_' + this.user.phone));
                 document.getElementById('u-name').innerText = this.user.name + " 🍌";
                 document.getElementById('u-location').innerText = "📍 " + this.user.gov;
                 document.getElementById('u-balance').innerText = this.user.balance;
@@ -339,48 +341,46 @@
             removeFromCart: function(i) { this.cart.splice(i, 1); this.updateCart(); },
             checkout: function() {
                 let total = 0; this.cart.forEach(i => total += i.price);
-                if(this.user.balance < total) return this.alert("رصيد ناقص!", "اشحن محفظتك!", "warning");
+                if(this.user.balance < total) return this.alert("رصيد ناقص!", "اشحن محفظتك بالتواصل مع الآدمن!", "warning");
                 this.user.balance -= total;
                 let bookNames = []; let hasBooks = false;
                 this.cart.forEach(item => {
                     this.user.owned.push(item.id);
                     if(item.id.startsWith('b')) { bookNames.push(item.name); hasBooks = true; }
                 });
-                if(hasBooks) this.sendToWhatsApp(bookNames, total);
+                if(hasBooks) this.sendToWhatsAppOrder(bookNames, total);
                 this.cart = []; this.save(); this.sync();
                 this.alert("مبروك!", "تم الشراء بنجاح!", "success"); show('dash');
             },
-            sendToWhatsApp: function(books, total) {
+            sendToWhatsAppOrder: function(books, total) {
                 const msg = `طلب جديد 🍌%0Aالاسم: ${this.user.name}%0Aالمحافظة: ${this.user.gov}%0Aالعنوان: ${this.user.address}%0Aالكتب: ${books.join(' - ')}%0Aالإجمالي: ${total} ج.م`;
                 window.open(`https://wa.me/201159562785?text=${msg}`);
             },
-            redeemCode: function() {
-                const code = document.getElementById('chargeInput').value.toUpperCase();
-                if(this.vouchers[code]) {
-                    this.user.balance += this.vouchers[code];
-                    delete this.vouchers[code];
-                    localStorage.setItem('vouchers', JSON.stringify(this.vouchers));
-                    this.save(); this.sync();
-                    this.alert("تم الشحن!", "رصيدك زاد!", "success");
-                    document.getElementById('chargeInput').value = '';
-                } else this.alert("كود خطأ!", "الكود غير صحيح!", "error");
+            contactForCharge: function() {
+                const msg = `طلب شحن محفظة 🍌%0Aالاسم: ${this.user.name}%0Aرقمي المسجل: ${this.user.phone}%0Aمحتاج أشحن رصيدي يا مستر موزة!`;
+                window.open(`https://wa.me/201159562785?text=${msg}`);
+            },
+            adminUpdateBalance: function() {
+                const phone = document.getElementById('adm-user-phone').value;
+                const newBal = document.getElementById('adm-new-balance').value;
+                const u = JSON.parse(localStorage.getItem('u_' + phone));
+                if(u) {
+                    u.balance = parseInt(newBal);
+                    localStorage.setItem('u_' + phone, JSON.stringify(u));
+                    this.alert("تم التحديث!", `تم تعديل رصيد ${u.name} إلى ${newBal} ج بنجاح!`, "success");
+                    document.getElementById('adm-user-phone').value = '';
+                    document.getElementById('adm-new-balance').value = '';
+                } else this.alert("خطأ!", "رقم الطالب ده مش موجود!", "error");
             },
             logout: function() {
                 Swal.fire({
                     title: 'ماشي يا موزة؟ 🍌',
-                    text: 'متاكد انك عايز تسيبني؟ دانا اديتك اكبر عضو فيا.. ظوفري!',
+                    text: 'متاكد انك عايز تسيبني؟',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'لازم أمشي',
                     cancelButtonText: 'خلاص قاعد'
                 }).then((r) => { if (r.isConfirmed) location.reload(); });
-            },
-            genVoucher: function() {
-                const amt = document.getElementById('adm-amt').value;
-                const code = "MOZA-" + Math.random().toString(36).substr(2, 5).toUpperCase();
-                this.vouchers[code] = parseInt(amt);
-                localStorage.setItem('vouchers', JSON.stringify(this.vouchers));
-                document.getElementById('v-list').innerHTML += `<div>${code} (${amt}ج)</div>`;
             },
             save: function() { localStorage.setItem('u_' + this.user.phone, JSON.stringify(this.user)); },
             updateProfile: function() {
