@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <style>
         :root {
@@ -201,14 +200,26 @@
         const GOVS = ["القاهرة", "الجيزة", "الإسكندرية", "الدقهلية", "الشرقية", "الغربية", "المنوفية", "البحيرة", "القليوبية", "دمياط", "كفر الشيخ", "الفيوم", "بني سويف", "المنيا", "أسيوط", "سوهاج", "قنا", "الأقصر", "أسوان", "الإسماعيلية", "بورسعيد", "السويس", "مطروح", "الوادي الجديد", "البحر الأحمر", "شمال سيناء", "جنوب سيناء"];
         
         const DATA = {
-            course: { id: 'c1', name: 'كورس  العمالقة 2026', price: 500 },
+            course: { id: 'c1', name: 'كورس العمالقة 2026', price: 500 },
             books: [
                 { id: 'b1', name: 'مذكرة الموزة في العضوية 🍌', price: 85 },
                 { id: 'b2', name: 'كتاب الأسئلة الشامل', price: 110 }
             ],
-            lectures: Array.from({length: 12}, (_, i) => ({
-                id: i + 1, title: `الحلقة ${i + 1}: شرح أسطوري 🍌`, video: `https://www.youtube.com/embed/dQw4w9WgXcQ`
-            }))
+            // 12 فيديو مختلف للدحيح
+            lectures: [
+                { id: 1, title: "الدحيح - اليقين 🍌", video: "https://www.youtube.com/embed/SshM9L2p5Yg" },
+                { id: 2, title: "الدحيح - لغة الحيوانات 🍌", video: "https://www.youtube.com/embed/j_zBw7Vf3f0" },
+                { id: 3, title: "الدحيح - الأرق 🍌", video: "https://www.youtube.com/embed/W9r6p0XmE9k" },
+                { id: 4, title: "الدحيح - الذكاء الاصطناعي 🍌", video: "https://www.youtube.com/embed/2-Y_l0S6iMc" },
+                { id: 5, title: "الدحيح - الثقوب السوداء 🍌", video: "https://www.youtube.com/embed/6i2SInp_oV4" },
+                { id: 6, title: "الدحيح - التضخم 🍌", video: "https://www.youtube.com/embed/W9yS6jI2D9g" },
+                { id: 7, title: "الدحيح - هيروشيما 🍌", video: "https://www.youtube.com/embed/8R7u-r_yXw8" },
+                { id: 8, title: "الدحيح - الموناليزا 🍌", video: "https://www.youtube.com/embed/rK6p_kI0Eao" },
+                { id: 9, title: "الدحيح - ستيف جوبز 🍌", video: "https://www.youtube.com/embed/406iY2Yp2W4" },
+                { id: 10, title: "الدحيح - ليلة الحساب 🍌", video: "https://www.youtube.com/embed/zH0S9vGg5xM" },
+                { id: 11, title: "الدحيح - كيف تنجح 🍌", video: "https://www.youtube.com/embed/r1p599U-fLk" },
+                { id: 12, title: "الدحيح - سر السعادة 🍌", video: "https://www.youtube.com/embed/hO3-xHjP2oQ" }
+            ]
         };
 
         window.app = {
@@ -308,47 +319,83 @@
                 const bStore = document.getElementById('book-store');
                 bStore.innerHTML = '';
                 DATA.books.forEach(b => {
-                    const bought = (this.user.owned || []).includes(b.id);
+                    // إزالة شرط الشراء مرة واحدة للكتب
                     bStore.innerHTML += `<div class="glass" style="text-align:center">
                         <small>${b.name}</small><br><b>${b.price} ج</b><br>
-                        ${bought ? '✅' : `<button class="neo-btn" style="padding:5px; margin-top:10px; font-size:12px" onclick="app.addToCart('${b.id}')">أضف للسلة</button>`}
+                        <button class="neo-btn" style="padding:5px; margin-top:10px; font-size:12px" onclick="app.addToCart('${b.id}')">أضف للسلة</button>
                     </div>`;
                 });
             },
             addToCart: function(id) {
                 const item = (id === 'course') ? DATA.course : DATA.books.find(b => b.id === id);
-                if(!this.cart.find(i => i.id === item.id)) {
-                    this.cart.push(item); this.updateCart();
-                    const Toast = Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 2000 });
-                    Toast.fire({ icon: 'success', title: 'تمت الإضافة للسلة 🛒' });
+                // يسمح بالتكرار للكتب
+                if (id === 'course' && this.cart.find(i => i.id === 'course')) {
+                     return this.alert("تنبيه", "الكورس موجود بالفعل في السلة!", "info");
                 }
+                this.cart.push({...item, cartId: Date.now()}); 
+                this.updateCart();
+                const Toast = Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 1500 });
+                Toast.fire({ icon: 'success', title: 'تمت الإضافة 🛒' });
             },
             updateCart: function() {
                 const list = document.getElementById('cart-items'); list.innerHTML = '';
                 let total = 0;
                 this.cart.forEach((item, idx) => {
                     total += item.price;
-                    list.innerHTML += `<div class="glass" style="display:flex; justify-content:space-between">
-                        <span>${item.name}</span><i class="fas fa-trash" style="color:var(--danger); cursor:pointer" onclick="app.cart.splice(${idx},1); app.updateCart()"></i>
+                    list.innerHTML += `<div class="glass" style="display:flex; justify-content:space-between; align-items:center; padding: 15px;">
+                        <span>${item.name}</span>
+                        <div style="display:flex; align-items:center; gap:10px">
+                             <b>${item.price} ج</b>
+                             <i class="fas fa-trash" style="color:var(--danger); cursor:pointer" onclick="app.cart.splice(${idx},1); app.updateCart()"></i>
+                        </div>
                     </div>`;
                 });
                 document.getElementById('cart-total').innerText = total;
                 document.getElementById('cart-total-box').style.display = this.cart.length ? 'block' : 'none';
             },
             checkout: async function() {
-                let total = 0; this.cart.forEach(i => total += i.price);
+                let total = 0; 
+                let details = "";
+                // تجميع البيانات للواتساب
+                const summary = {};
+                this.cart.forEach(i => {
+                    total += i.price;
+                    summary[i.name] = (summary[i.name] || 0) + 1;
+                });
+
                 if(this.user.balance < total) return this.alert("عذراً", "رصيدك مش كفاية يا بطل!", "warning");
                 
+                // خصم الرصيد في السيرفر
+                const newBalance = this.user.balance - total;
                 const newOwned = [...(this.user.owned || []), ...this.cart.map(i => i.id)];
-                await update(ref(db, 'users/' + this.user.phone), {
-                    balance: this.user.balance - total,
-                    owned: newOwned
-                });
                 
-                this.cart = []; this.updateCart();
-                this.bananaRain();
-                this.alert("مبروووك!", "المحتوى الآن ملكك للأبد 🍌", "success");
-                window.show('dash');
+                try {
+                    await update(ref(db, 'users/' + this.user.phone), {
+                        balance: newBalance,
+                        owned: newOwned
+                    });
+
+                    // بناء رسالة الواتساب
+                    for (const [name, qty] of Object.entries(summary)) {
+                        details += `- ${name} (عدد: ${qty})%0A`;
+                    }
+
+                    const whatsappMsg = `طلب شراء جديد من منصة موزتي 🍌%0A--------------------%0A👤 الاسم: ${this.user.name}%0A📱 الموبايل: ${this.user.phone}%0A%0A📦 المنتجات:%0A${details}%0A💰 الإجمالي المخصوم: ${total} ج%0A📉 رصيدي الحالي: ${newBalance} ج`;
+                    
+                    this.cart = []; 
+                    this.updateCart();
+                    this.bananaRain();
+                    
+                    this.alert("تم الخصم!", "تم خصم الرصيد وجاري توجيهك لتأكيد الاستلام على الواتساب 🍌", "success");
+                    
+                    setTimeout(() => {
+                        window.open(`https://wa.me/201159562785?text=${whatsappMsg}`);
+                        window.show('dash');
+                    }, 2000);
+
+                } catch(e) {
+                    this.alert("خطأ", "فشلت العملية، حاول لاحقاً", "error");
+                }
             },
             openCourse: function() {
                 window.show('courseContent');
