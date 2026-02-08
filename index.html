@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>منصة موزتي 2026</title>
+    <title>منصة موزتي 2026 - الإصدار العملاق</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Orbitron:wght@800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -44,6 +44,7 @@
             cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;
         }
         .neo-btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,242,255,0.4); }
+        .btn-danger { background: var(--danger); }
         
         input, select { 
             width: 100%; padding: 14px; background: rgba(0,0,0,0.6); border: 1px solid var(--border); 
@@ -55,14 +56,18 @@
         nav { 
             position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); 
             background: rgba(10, 10, 15, 0.9); border: 1px solid var(--p); border-radius: 40px; 
-            padding: 10px 30px; display: flex; gap: 30px; z-index: 1000;
+            padding: 10px 30px; display: flex; gap: 20px; z-index: 1000;
         }
         nav i { font-size: 22px; color: #444; cursor: pointer; transition: 0.3s; }
         nav i.active-nav { color: var(--p); transform: scale(1.2); text-shadow: 0 0 10px var(--p); }
 
+        .log-item { font-size: 12px; border-bottom: 1px solid #333; padding: 8px 0; display: flex; justify-content: space-between; }
+        .log-add { color: var(--success); }
+        .log-sub { color: var(--danger); }
+
         .lecture-box { background: rgba(255,255,255,0.05); margin-bottom: 15px; border-radius: 15px; padding: 20px; border-left: 4px solid var(--p); }
         .lecture-btns { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .lec-btn { background: #111; border: 1px solid #333; color: #fff; padding: 10px; border-radius: 10px; font-size: 12px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; }
+        .lec-btn { background: #111; border: 1px solid #333; color: #fff; padding: 10px; border-radius: 10px; font-size: 11px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; }
         .lec-btn i { font-size: 18px; color: var(--p); }
 
         .banana-emoji { position: fixed; top: -50px; z-index: 9999; font-size: 24px; animation: fall linear forwards; pointer-events: none; }
@@ -73,7 +78,7 @@
 
     <div id="loader" style="position:fixed; inset:0; background:var(--bg); z-index:10000; display:flex; flex-direction:column; align-items:center; justify-content:center;">
         <div class="logo-m">M</div>
-        <p class="animate__animated animate__pulse animate__infinite" style="color:var(--p)">جاري تحضير الموز... 🍌</p>
+        <p class="animate__animated animate__pulse animate__infinite" style="color:var(--p)">جاري تحضير الموز العملاق... 🍌</p>
     </div>
 
     <div id="indexPage" class="page">
@@ -94,7 +99,7 @@
             <input type="text" id="regName" placeholder="الاسم الكامل">
             <input type="tel" id="regPhone" placeholder="رقم الموبايل">
             <input type="tel" id="rekowmy" placeholder="الرقم القومي">
-            <input type="password" id="regPass" placeholder="كلمة السر">
+            <input type="password" id="regPass" placeholder="كلمة السر (6 أرقام على الأقل)">
             <select id="regGov"></select>
             <button class="neo-btn" onclick="app.signup()">تجهيز الحساب 🚀</button>
         </div>
@@ -121,16 +126,24 @@
                 <div style="color:var(--a); font-weight:bold; font-size:22px"><span id="u-balance">0</span> ج</div>
             </div>
         </div>
-        <h2 class="section-title">🎬 محاضراتك 🍌</h2>
+
+        <h2 class="section-title">🎬 الكورسات المتاحة 🍌</h2>
         <div id="course-list"></div>
-        <h2 class="section-title">📚 الكتب والمذكرات</h2>
+
+        <h2 class="section-title">📚 متجر الكتب</h2>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;" id="book-store"></div>
+
+        <h2 class="section-title">📜 سجل نشاطاتك</h2>
+        <div class="glass" style="max-height: 200px; overflow-y: auto;" id="user-logs">
+            <p style="text-align:center; opacity:0.5">لا يوجد عمليات بعد</p>
+        </div>
+        <button class="neo-btn btn-danger" style="padding: 5px; font-size: 12px;" onclick="app.clearMyLogs()">حذف السجل الخاص بي</button>
     </div>
 
     <div id="courseContentPage" class="page">
         <div style="display:flex; align-items:center; gap:15px; margin-bottom:20px">
             <i class="fas fa-arrow-right" onclick="show('dash')" style="cursor:pointer; color:var(--p); font-size: 20px;"></i>
-            <h2 style="margin:0">المحاضرات المتاحة 🍌</h2>
+            <h2 id="current-course-title" style="margin:0">المحاضرات 🍌</h2>
         </div>
         <div id="lectures-container"></div>
     </div>
@@ -163,27 +176,35 @@
     </div>
 
     <div id="adminPage" class="page">
+        <h2 class="section-title">👑 لوحة تحكم العمالقة</h2>
         <div class="glass">
-            <h3 style="color:var(--a)">لوحة تحكم مستر موزة 🍌</h3>
-            <p>إضافة رصيد </p>
-            <input type="tel" id="adm-user-phone" placeholder="رقم الطالب">
-            <input type="number" id="adm-add-amount" placeholder="المبلغ المضاف">
-            <button class="neo-btn" onclick="app.adminAddBalance()">إرسال الرصيد فوراً</button>
+            <h3 style="color:var(--a)">إدارة أرصدة الموز 🍌</h3>
+            <input type="tel" id="adm-user-phone" placeholder="رقم هاتف الطالب">
+            <input type="number" id="adm-amount" placeholder="المبلغ">
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px">
+                <button class="neo-btn" style="background:var(--success)" onclick="app.adminModifyBalance('add')">إضافة رصيد</button>
+                <button class="neo-btn" style="background:var(--danger)" onclick="app.adminModifyBalance('sub')">سحب رصيد</button>
+            </div>
         </div>
+
+        <h3 class="section-title">📊 سجل مراقبة السيستم</h3>
+        <div class="glass" style="max-height: 400px; overflow-y: auto;" id="admin-global-logs"></div>
+        <button class="neo-btn btn-danger" onclick="app.adminClearAllLogs()">حذف السجل العام نهائياً</button>
     </div>
 
     <nav id="navbar" style="display:none">
         <i class="fas fa-home" id="nav-dash" onclick="show('dash')"></i>
         <i class="fas fa-shopping-basket" id="nav-cart" onclick="show('cart')"></i>
         <i class="fas fa-user-cog" id="nav-vault" onclick="show('vault')"></i>
-        <i class="fas fa-shield-alt" id="adm-shield" style="display:none" onclick="show('admin')"></i>
+        <i class="fas fa-shield-alt" id="nav-admin" style="display:none" onclick="show('admin')"></i>
         <i class="fas fa-sign-out-alt" onclick="app.logout()"></i>
     </nav>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, set, get, update, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, set, get, update, onValue, remove, push } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
+        // نفس الإعدادات الخاصة بك
         const firebaseConfig = {
             apiKey: "AIzaSyBeFBDq6UQx66dkodgBIskwGYhKFiA4m9c",
             authDomain: "moza2026-805ac.firebaseapp.com",
@@ -197,33 +218,34 @@
         const fApp = initializeApp(firebaseConfig);
         const db = getDatabase(fApp);
 
-        const GOVS = ["القاهرة", "الجيزة", "الإسكندرية", "الدقهلية", "الشرقية", "الغربية", "المنوفية", "البحيرة", "القليوبية", "دمياط", "كفر الشيخ", "الفيوم", "بني سويف", "المنيا", "أسيوط", "سوهاج", "قنا", "الأقصر", "أسوان", "الإسماعيلية", "بورسعيد", "السويس", "مطروح", "الوادي الجديد", "البحر الأحمر", "شمال سيناء", "جنوب سيناء"];
+        const GOVS = ["القاهرة", "الجيزة", "الإسكندرية", "الدقهلية", "الشرقية", "الغربية", "المنوفية", "البحيرة", "القليوبية", "دمياط", "كفر الشيخ", "الفيوم", "بني سويف", "المنيا", "أسيوط", "سوهاج", "قنا", "الأقصر", "أسوان"];
         
         const DATA = {
-            course: { id: 'c1', name: 'كورس العمالقة 2026', price: 500 },
-            books: [
-                { id: 'b1', name: 'مذكرة الموزة في العضوية 🍌', price: 85 },
-                { id: 'b2', name: 'كتاب الأسئلة الشامل', price: 110 }
+            courses: [
+                { id: 'c1', name: 'كورس العمالقة (التأسيس) 🍌', price: 450 },
+                { id: 'c2', name: 'كورس الموزة النووية (عضوية) 🍌', price: 550 },
+                { id: 'c3', name: 'مراجعة ليلة الحساب 🍌', price: 300 }
             ],
-            // 12 فيديو مختلف للدحيح
+            books: [
+                { id: 'b1', name: 'مذكرة العضوية 🍌', price: 85 },
+                { id: 'b2', name: 'كتاب الأسئلة الشامل', price: 110 },
+                { id: 'b3', name: 'ملخص القوانين الذهبي', price: 50 },
+                { id: 'b4', name: 'مفاهيم الكيمياء 2026', price: 70 },
+                { id: 'b5', name: 'بنك الأسئلة الوزاري', price: 150 }
+            ],
             lectures: [
-                { id: 1, title: "الدحيح - اليقين 🍌", video: "https://www.youtube.com/embed/SshM9L2p5Yg" },
-                { id: 2, title: "الدحيح - لغة الحيوانات 🍌", video: "https://www.youtube.com/embed/j_zBw7Vf3f0" },
-                { id: 3, title: "الدحيح - الأرق 🍌", video: "https://www.youtube.com/embed/W9r6p0XmE9k" },
-                { id: 4, title: "الدحيح - الذكاء الاصطناعي 🍌", video: "https://www.youtube.com/embed/2-Y_l0S6iMc" },
-                { id: 5, title: "الدحيح - الثقوب السوداء 🍌", video: "https://www.youtube.com/embed/6i2SInp_oV4" },
-                { id: 6, title: "الدحيح - التضخم 🍌", video: "https://www.youtube.com/embed/W9yS6jI2D9g" },
-                { id: 7, title: "الدحيح - هيروشيما 🍌", video: "https://www.youtube.com/embed/8R7u-r_yXw8" },
-                { id: 8, title: "الدحيح - الموناليزا 🍌", video: "https://www.youtube.com/embed/rK6p_kI0Eao" },
-                { id: 9, title: "الدحيح - ستيف جوبز 🍌", video: "https://www.youtube.com/embed/406iY2Yp2W4" },
-                { id: 10, title: "الدحيح - ليلة الحساب 🍌", video: "https://www.youtube.com/embed/zH0S9vGg5xM" },
-                { id: 11, title: "الدحيح - كيف تنجح 🍌", video: "https://www.youtube.com/embed/r1p599U-fLk" },
-                { id: 12, title: "الدحيح - سر السعادة 🍌", video: "https://www.youtube.com/embed/hO3-xHjP2oQ" }
+                { id: 1, title: "الدحيح - اليقين", videoId: "SshM9L2p5Yg" },
+                { id: 2, title: "الدحيح - لغة الحيوانات", videoId: "j_zBw7Vf3f0" },
+                { id: 3, title: "الدحيح - الأرق", videoId: "W9r6p0XmE9k" },
+                { id: 4, title: "الدحيح - الذكاء الاصطناعي", videoId: "2-Y_l0S6iMc" }
             ]
         };
 
         window.app = {
-            user: null, cart: [],
+            user: null, 
+            cart: [],
+            isProcessing: false,
+
             init: function() {
                 const selects = [document.getElementById('regGov'), document.getElementById('editGov')];
                 selects.forEach(s => GOVS.forEach(g => { let opt = document.createElement('option'); opt.value = opt.text = g; s.add(opt); }));
@@ -236,33 +258,35 @@
                     window.show('index');
                 }
             },
+
             autoLogin: async function(phone) {
                 try {
                     const snap = await get(ref(db, 'users/' + phone));
                     if (snap.exists()) {
                         this.user = snap.val();
                         this.startSession();
-                    } else {
-                        localStorage.removeItem('moza_user');
-                    }
+                    } else { localStorage.removeItem('moza_user'); }
                 } catch(e) { console.error(e); }
                 document.getElementById('loader').style.display = 'none';
                 if(!this.user) window.show('index');
             },
+
             signup: async function() {
                 const phone = document.getElementById('regPhone').value;
                 const name = document.getElementById('regName').value;
                 const pass = document.getElementById('regPass').value;
-                const rekowmy = document.getElementById('rekowmy').value;
-                if(phone.length < 11) return this.alert("خطأ", "رقم الموبايل غلط!", "error");
+                if(phone.length < 11 || pass.length < 6) return this.alert("خطأ", "تأكد من البيانات (السر 6 أرقام)", "error");
                 
                 await set(ref(db, 'users/' + phone), {
-                    name, phone, pass, rekowmy, balance: 0, owned: ["none"],
-                    gov: document.getElementById('regGov').value
+                    name, phone, pass, balance: 0, owned: ["none"],
+                    gov: document.getElementById('regGov').value,
+                    role: (phone === "01159562785") ? "admin" : "user"
                 });
-                this.alert("يا هلا!", "تم التسجيل، سجل دخولك يا بطل!", "success");
+                this.logActivity(phone, name, "إنشاء حساب جديد", "add");
+                this.alert("يا هلا!", "تم التسجيل بنجاح!", "success");
                 window.show('login');
             },
+
             login: async function() {
                 const p = document.getElementById('loginPhone').value;
                 const pass = document.getElementById('loginPass').value;
@@ -274,173 +298,203 @@
                     this.startSession();
                 } else this.alert("خطأ", "بياناتك غلط يا صاحبي!", "error");
             },
+
             startSession: function() {
                 window.show('dash');
                 document.getElementById('navbar').style.display = 'flex';
-                if(this.user.phone === "01159562785") document.getElementById('adm-shield').style.display = 'block';
+                if(this.user.role === "admin") document.getElementById('nav-admin').style.display = 'block';
                 
+                // تحديث البيانات لحظياً
                 onValue(ref(db, 'users/' + this.user.phone), (s) => {
-                    if(s.exists()) {
-                        this.user = s.val();
-                        this.syncUI();
-                    }
+                    if(s.exists()) { this.user = s.val(); this.syncUI(); }
                 });
+
+                // تحديث سجل الأدمن إذا كان أدمن
+                if(this.user.role === "admin") {
+                    onValue(ref(db, 'global_logs'), (s) => { this.renderAdminLogs(s.val()); });
+                }
+
+                // تحديث سجل الطالب
+                onValue(ref(db, 'logs/' + this.user.phone), (s) => { this.renderUserLogs(s.val()); });
             },
+
             syncUI: function() {
                 document.getElementById('u-name').innerText = this.user.name + " 🍌";
                 document.getElementById('u-location').innerText = "📍 " + this.user.gov;
                 document.getElementById('u-balance').innerText = this.user.balance;
                 document.getElementById('editName').value = this.user.name;
-                document.getElementById('editGov').value = this.user.gov;
                 this.renderStore();
             },
-            adminAddBalance: async function() {
-                const phone = document.getElementById('adm-user-phone').value;
-                const addVal = parseInt(document.getElementById('adm-add-amount').value);
-                if(!phone || isNaN(addVal)) return;
 
-                const snap = await get(ref(db, 'users/' + phone));
-                if(snap.exists()){
-                    const current = snap.val().balance || 0;
-                    await update(ref(db, 'users/' + phone), { balance: current + addVal });
-                    this.alert("تم الشحن!", `تم إضافة ${addVal} ج بنجاح!`, "success");
-                    document.getElementById('adm-add-amount').value = '';
-                } else this.alert("خطأ", "الرقم غير مسجل!", "error");
-            },
             renderStore: function() {
-                const isBought = (this.user.owned || []).includes(DATA.course.id);
-                document.getElementById('course-list').innerHTML = `
+                const cList = document.getElementById('course-list'); cList.innerHTML = '';
+                DATA.courses.forEach(c => {
+                    const isBought = (this.user.owned || []).includes(c.id);
+                    cList.innerHTML += `
                     <div class="glass" style="display:flex; justify-content:space-between; align-items:center;">
-                        <div><b>${DATA.course.name}</b><br><small>${DATA.course.price} ج</small></div>
-                        ${isBought ? `<button class="neo-btn" style="width:100px; background:var(--success)" onclick="app.openCourse()">فتح</button>` :
-                        `<button class="neo-btn" style="width:100px" onclick="app.addToCart('course')">شراء</button>`}
+                        <div><b>${c.name}</b><br><small>${c.price} ج</small></div>
+                        ${isBought ? `<button class="neo-btn" style="width:100px; background:var(--success)" onclick="app.openCourse('${c.id}', '${c.name}')">فتح</button>` :
+                        `<button class="neo-btn" style="width:100px" onclick="app.addToCart('${c.id}', 'course')">شراء</button>`}
                     </div>`;
-                
-                const bStore = document.getElementById('book-store');
-                bStore.innerHTML = '';
+                });
+
+                const bStore = document.getElementById('book-store'); bStore.innerHTML = '';
                 DATA.books.forEach(b => {
-                    // إزالة شرط الشراء مرة واحدة للكتب
                     bStore.innerHTML += `<div class="glass" style="text-align:center">
                         <small>${b.name}</small><br><b>${b.price} ج</b><br>
-                        <button class="neo-btn" style="padding:5px; margin-top:10px; font-size:12px" onclick="app.addToCart('${b.id}')">أضف للسلة</button>
+                        <button class="neo-btn" style="padding:5px; margin-top:10px; font-size:12px" onclick="app.addToCart('${b.id}', 'book')">أضف للسلة</button>
                     </div>`;
                 });
             },
-            addToCart: function(id) {
-                const item = (id === 'course') ? DATA.course : DATA.books.find(b => b.id === id);
-                // يسمح بالتكرار للكتب
-                if (id === 'course' && this.cart.find(i => i.id === 'course')) {
-                     return this.alert("تنبيه", "الكورس موجود بالفعل في السلة!", "info");
-                }
-                this.cart.push({...item, cartId: Date.now()}); 
-                this.updateCart();
-                const Toast = Swal.mixin({ toast: true, position: 'top-end', showConfirmButton: false, timer: 1500 });
-                Toast.fire({ icon: 'success', title: 'تمت الإضافة 🛒' });
+
+            addToCart: function(id, type) {
+                const item = (type === 'course') ? DATA.courses.find(c => c.id === id) : DATA.books.find(b => b.id === id);
+                if (type === 'course' && this.cart.find(i => i.id === id)) return;
+                this.cart.push({...item, type});
+                this.updateCartUI();
+                Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'تمت الإضافة 🛒', showConfirmButton: false, timer: 1000 });
             },
-            updateCart: function() {
+
+            updateCartUI: function() {
                 const list = document.getElementById('cart-items'); list.innerHTML = '';
                 let total = 0;
                 this.cart.forEach((item, idx) => {
                     total += item.price;
                     list.innerHTML += `<div class="glass" style="display:flex; justify-content:space-between; align-items:center; padding: 15px;">
                         <span>${item.name}</span>
-                        <div style="display:flex; align-items:center; gap:10px">
-                             <b>${item.price} ج</b>
-                             <i class="fas fa-trash" style="color:var(--danger); cursor:pointer" onclick="app.cart.splice(${idx},1); app.updateCart()"></i>
-                        </div>
+                        <b>${item.price} ج <i class="fas fa-trash" style="color:var(--danger); cursor:pointer" onclick="app.removeFromCart(${idx})"></i></b>
                     </div>`;
                 });
                 document.getElementById('cart-total').innerText = total;
                 document.getElementById('cart-total-box').style.display = this.cart.length ? 'block' : 'none';
             },
+
+            removeFromCart: function(idx) { this.cart.splice(idx,1); this.updateCartUI(); },
+
             checkout: async function() {
-                let total = 0; 
-                let details = "";
-                // تجميع البيانات للواتساب
-                const summary = {};
-                this.cart.forEach(i => {
-                    total += i.price;
-                    summary[i.name] = (summary[i.name] || 0) + 1;
-                });
+                if(this.isProcessing) return;
+                let total = document.getElementById('cart-total').innerText;
+                if(this.user.balance < total) return this.alert("عذراً", "رصيدك غير كافٍ شحن يا موزة 🍌", "warning");
 
-                if(this.user.balance < total) return this.alert("عذراً", "رصيدك مش كفاية يا بطل!", "warning");
-                
-                // خصم الرصيد في السيرفر
+                this.isProcessing = true;
                 const newBalance = this.user.balance - total;
-                const newOwned = [...(this.user.owned || []), ...this.cart.map(i => i.id)];
-                
+                const newlyOwned = this.cart.map(i => i.id);
+                const updatedOwned = Array.from(new Set([...(this.user.owned || []), ...newlyOwned]));
+
                 try {
-                    await update(ref(db, 'users/' + this.user.phone), {
-                        balance: newBalance,
-                        owned: newOwned
-                    });
-
-                    // بناء رسالة الواتساب
-                    for (const [name, qty] of Object.entries(summary)) {
-                        details += `- ${name} (عدد: ${qty})%0A`;
-                    }
-
-                    const whatsappMsg = `طلب شراء جديد من منصة موزتي 🍌%0A--------------------%0A👤 الاسم: ${this.user.name}%0A📱 الموبايل: ${this.user.phone}%0A%0A📦 المنتجات:%0A${details}%0A💰 الإجمالي المخصوم: ${total} ج%0A📉 رصيدي الحالي: ${newBalance} ج`;
+                    await update(ref(db, 'users/' + this.user.phone), { balance: newBalance, owned: updatedOwned });
+                    this.logActivity(this.user.phone, this.user.name, `شراء منتجات بقيمة ${total} ج`, "sub");
                     
-                    this.cart = []; 
-                    this.updateCart();
-                    this.bananaRain();
-                    
-                    this.alert("تم الخصم!", "تم خصم الرصيد وجاري توجيهك لتأكيد الاستلام على الواتساب 🍌", "success");
-                    
-                    setTimeout(() => {
-                        window.open(`https://wa.me/201159562785?text=${whatsappMsg}`);
-                        window.show('dash');
-                    }, 2000);
-
-                } catch(e) {
-                    this.alert("خطأ", "فشلت العملية، حاول لاحقاً", "error");
-                }
+                    this.cart = []; this.updateCartUI();
+                    this.alert("تم الشراء!", "تم خصم الرصيد بنجاح 🍌", "success");
+                    this.isProcessing = false;
+                    window.show('dash');
+                } catch(e) { this.isProcessing = false; }
             },
-            openCourse: function() {
+
+            // دالة تسجيل النشاط (Security & Logs)
+            logActivity: function(phone, name, action, type) {
+                const logData = {
+                    name, phone, action, type,
+                    date: new Date().toLocaleString('ar-EG')
+                };
+                push(ref(db, 'logs/' + phone), logData);
+                push(ref(db, 'global_logs'), logData);
+            },
+
+            renderUserLogs: function(data) {
+                const cont = document.getElementById('user-logs');
+                if(!data) { cont.innerHTML = '<p style="text-align:center; opacity:0.5">لا يوجد سجل</p>'; return; }
+                cont.innerHTML = Object.values(data).reverse().map(l => `
+                    <div class="log-item">
+                        <span class="${l.type === 'add' ? 'log-add' : 'log-sub'}">${l.action}</span>
+                        <small style="opacity:0.5">${l.date}</small>
+                    </div>
+                `).join('');
+            },
+
+            clearMyLogs: function() {
+                remove(ref(db, 'logs/' + this.user.phone));
+                this.alert("تم", "تم حذف سجلك الشخصي", "success");
+            },
+
+            // وظائف الأدمن (إضافة وسحب)
+            adminModifyBalance: async function(mode) {
+                const phone = document.getElementById('adm-user-phone').value;
+                const amount = parseInt(document.getElementById('adm-amount').value);
+                if(!phone || isNaN(amount)) return this.alert("خطأ", "دخل بيانات صح", "error");
+
+                const snap = await get(ref(db, 'users/' + phone));
+                if(!snap.exists()) return this.alert("خطأ", "المستخدم غير موجود", "error");
+
+                let currentBalance = snap.val().balance || 0;
+                let newBalance = (mode === 'add') ? currentBalance + amount : currentBalance - amount;
+                
+                if(newBalance < 0) newBalance = 0;
+
+                await update(ref(db, 'users/' + phone), { balance: newBalance });
+                this.logActivity(phone, snap.val().name, `${mode === 'add' ? 'إضافة' : 'سحب'} رصيد بقيمة ${amount} ج بواسطة الإدارة`, mode);
+                this.alert("تم", "تمت العملية بنجاح", "success");
+            },
+
+            renderAdminLogs: function(data) {
+                const cont = document.getElementById('admin-global-logs');
+                if(!data) { cont.innerHTML = 'لا يوجد سجلات عامة'; return; }
+                cont.innerHTML = Object.values(data).reverse().map(l => `
+                    <div class="log-item" style="flex-direction:column; align-items:start">
+                        <div><b>${l.name} (${l.phone})</b></div>
+                        <div class="${l.type === 'add' ? 'log-add' : 'log-sub'}">${l.action}</div>
+                        <small style="opacity:0.5">${l.date}</small>
+                    </div>
+                `).join('');
+            },
+
+            adminClearAllLogs: function() {
+                remove(ref(db, 'global_logs'));
+                this.alert("تم", "تم تصغير السجل العام", "success");
+            },
+
+            openCourse: function(id, name) {
+                document.getElementById('current-course-title').innerText = name;
                 window.show('courseContent');
                 const cont = document.getElementById('lectures-container');
                 cont.innerHTML = '';
                 DATA.lectures.forEach(l => {
-                    cont.innerHTML += `<div class="lecture-box animate__animated animate__fadeIn">
+                    cont.innerHTML += `
+                    <div class="lecture-box">
                         <b>${l.title}</b>
                         <div class="lecture-btns">
-                            <button class="lec-btn" onclick="app.viewVideo('${l.video}')"><i class="fas fa-play"></i> فيديو</button>
+                            <button class="lec-btn" onclick="app.viewVideo('${l.videoId}', '${l.title}')"><i class="fas fa-play"></i> فيديو</button>
                             <button class="lec-btn"><i class="fas fa-file-pdf"></i> ملزمة</button>
                             <button class="lec-btn"><i class="fas fa-pen"></i> اختبار</button>
                         </div>
                     </div>`;
                 });
             },
-            viewVideo: function(url) {
+
+            viewVideo: function(id, title) {
+                // تسجيل أن الطالب سمع الفيديو
+                this.logActivity(this.user.phone, this.user.name, `مشاهدة فيديو: ${title}`, "add");
+                
                 Swal.fire({ 
-                    html: `<iframe width="100%" height="300" src="${url}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`, 
+                    html: `
+                    <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
+                        <iframe style="position:absolute;top:0;left:0;width:100%;height:100%;" 
+                            src="https://www.youtube.com/embed/${id}?rel=0&modestbranding=1&showinfo=0" 
+                            frameborder="0" allowfullscreen></iframe>
+                    </div>`,
                     showConfirmButton: false, background: '#000', width: '95%' 
                 });
             },
-            updateProfile: async function() {
-                await update(ref(db, 'users/' + this.user.phone), {
-                    name: document.getElementById('editName').value,
-                    gov: document.getElementById('editGov').value
-                });
-                this.alert("تم!", "تحدثت بياناتك 🍌", "success");
-            },
+
             logout: function() {
-                Swal.fire({
-                    title: 'خروج 🍌',
-                    text: "عايز تسيبني يا موزة ؟ دانا اديتك اكبر عضو فيا .. ظوفري",
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonText: 'آه هخرج',
-                    cancelButtonText: 'لا، مكمل',
-                    confirmButtonColor: '#ff3e3e',
-                    cancelButtonColor: '#00f2ff',
-                    background: '#050508', color: '#fff'
-                }).then((r) => { if(r.isConfirmed) { localStorage.removeItem('moza_user'); location.reload(); }});
+                localStorage.removeItem('moza_user'); location.reload();
             },
+
             contactForCharge: function() {
                 window.open(`https://wa.me/201159562785?text=محتاج أشحن رصيد يا مستر موزة، اسمي: ${this.user.name}`);
             },
+
             alert: function(t, txt, i) { Swal.fire({title: t, text: txt, icon: i, confirmButtonColor: '#00f2ff', background: '#050508', color: '#fff'}); },
             
             bananaRain: function() {
@@ -450,7 +504,6 @@
                     b.innerText = '🍌';
                     b.style.left = Math.random() * 100 + 'vw';
                     b.style.animationDuration = (Math.random() * 2 + 1) + 's';
-                    b.style.opacity = Math.random();
                     document.body.appendChild(b);
                     setTimeout(() => b.remove(), 3000);
                 }
@@ -459,13 +512,9 @@
 
         window.show = function(id) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            const target = document.getElementById(id + 'Page');
-            if(target) target.classList.add('active');
-            
+            document.getElementById(id + 'Page').classList.add('active');
             document.querySelectorAll('nav i').forEach(i => i.classList.remove('active-nav'));
-            const activeIcon = document.getElementById('nav-' + id);
-            if(activeIcon) activeIcon.classList.add('active-nav');
-            
+            if(document.getElementById('nav-' + id)) document.getElementById('nav-' + id).classList.add('active-nav');
             window.scrollTo(0,0);
         };
 
