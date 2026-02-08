@@ -21,7 +21,6 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
         body { margin: 0; background: var(--bg); color: #fff; font-family: 'Cairo', sans-serif; overflow-x: hidden; min-height: 100vh; }
 
-        /* تأثير الأنيميشن */
         .logo-m {
             width: 80px; height: 80px; background: var(--grad); border-radius: 20px;
             display: flex; align-items: center; justify-content: center;
@@ -67,8 +66,7 @@
         .lec-btn { background: #111; border: 1px solid #333; color: #fff; padding: 10px; border-radius: 10px; font-size: 12px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; }
         .lec-btn i { font-size: 18px; color: var(--p); }
 
-        /* ستايل الموز المتساقط */
-        .banana-emoji { position: fixed; top: -50px; z-index: 9999; font-size: 24px; animation: fall linear forwards; }
+        .banana-emoji { position: fixed; top: -50px; z-index: 9999; font-size: 24px; animation: fall linear forwards; pointer-events: none; }
         @keyframes fall { to { transform: translateY(105vh) rotate(360deg); } }
     </style>
 </head>
@@ -228,24 +226,27 @@
                 }
             },
             autoLogin: async function(phone) {
-                const snap = await get(ref(db, 'users/' + phone));
-                if (snap.exists()) {
-                    this.user = snap.val();
-                    this.startSession();
-                } else {
-                    localStorage.removeItem('moza_user');
-                    location.reload();
-                }
+                try {
+                    const snap = await get(ref(db, 'users/' + phone));
+                    if (snap.exists()) {
+                        this.user = snap.val();
+                        this.startSession();
+                    } else {
+                        localStorage.removeItem('moza_user');
+                    }
+                } catch(e) { console.error(e); }
                 document.getElementById('loader').style.display = 'none';
+                if(!this.user) window.show('index');
             },
             signup: async function() {
                 const phone = document.getElementById('regPhone').value;
                 const name = document.getElementById('regName').value;
                 const pass = document.getElementById('regPass').value;
+                const rekowmy = document.getElementById('rekowmy').value;
                 if(phone.length < 11) return this.alert("خطأ", "رقم الموبايل غلط!", "error");
                 
                 await set(ref(db, 'users/' + phone), {
-                    name, phone, pass, balance: 0, owned: ["none"],
+                    name, phone, pass, rekowmy, balance: 0, owned: ["none"],
                     gov: document.getElementById('regGov').value
                 });
                 this.alert("يا هلا!", "تم التسجيل، سجل دخولك يا بطل!", "success");
@@ -385,8 +386,8 @@
                     showCancelButton: true,
                     confirmButtonText: 'آه هخرج',
                     cancelButtonText: 'لا، مكمل',
-                    confirmButtonColor: var(--danger),
-                    cancelButtonColor: var(--p),
+                    confirmButtonColor: '#ff3e3e',
+                    cancelButtonColor: '#00f2ff',
                     background: '#050508', color: '#fff'
                 }).then((r) => { if(r.isConfirmed) { localStorage.removeItem('moza_user'); location.reload(); }});
             },
@@ -395,7 +396,6 @@
             },
             alert: function(t, txt, i) { Swal.fire({title: t, text: txt, icon: i, confirmButtonColor: '#00f2ff', background: '#050508', color: '#fff'}); },
             
-            // تأثير الموز المتساقط 🍌
             bananaRain: function() {
                 for(let i=0; i<30; i++) {
                     const b = document.createElement('div');
@@ -412,9 +412,9 @@
 
         window.show = function(id) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(id + 'Page').classList.add('active');
+            const target = document.getElementById(id + 'Page');
+            if(target) target.classList.add('active');
             
-            // تحديث شكل النافبار
             document.querySelectorAll('nav i').forEach(i => i.classList.remove('active-nav'));
             const activeIcon = document.getElementById('nav-' + id);
             if(activeIcon) activeIcon.classList.add('active-nav');
