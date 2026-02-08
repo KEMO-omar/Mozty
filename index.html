@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>منصة موزتي 2026 - الإصدار العملاق</title>
+    <title>منصة موزتي 2026</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Orbitron:wght@800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <style>
         :root {
@@ -64,20 +65,29 @@
         .log-item { font-size: 12px; border-bottom: 1px solid #333; padding: 8px 0; display: flex; justify-content: space-between; }
         .log-add { color: var(--success); }
         .log-sub { color: var(--danger); }
+        .log-view { color: var(--p); }
 
         .lecture-box { background: rgba(255,255,255,0.05); margin-bottom: 15px; border-radius: 15px; padding: 20px; border-left: 4px solid var(--p); }
         .lecture-btns { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; }
         .lec-btn { background: #111; border: 1px solid #333; color: #fff; padding: 10px; border-radius: 10px; font-size: 11px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; }
         .lec-btn i { font-size: 18px; color: var(--p); }
 
+        .progress-container { width: 100%; height: 10px; background: #222; border-radius: 5px; margin: 10px 0; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--grad); width: 0%; transition: 0.5s; }
+
         .banana-emoji { position: fixed; top: -50px; z-index: 9999; font-size: 24px; animation: fall linear forwards; pointer-events: none; }
         @keyframes fall { to { transform: translateY(105vh) rotate(360deg); } }
+
+        .rights-box { text-align: center; font-size: 10px; opacity: 0.5; font-family: 'Orbitron'; padding: 10px; color: var(--p); }
+        .admin-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .stat-card { background: var(--card); padding: 10px; border-radius: 15px; text-align: center; border: 1px solid var(--border); }
+        .stat-card b { color: var(--a); display: block; font-size: 16px; }
     </style>
 </head>
 <body>
 
     <div id="loader" style="position:fixed; inset:0; background:var(--bg); z-index:10000; display:flex; flex-direction:column; align-items:center; justify-content:center;">
-        <div class="logo-m">M</div>
+        <div class="logo-m">K</div>
         <p class="animate__animated animate__pulse animate__infinite" style="color:var(--p)">جاري تحضير الموز العملاق... 🍌</p>
     </div>
 
@@ -85,11 +95,12 @@
         <div style="text-align: center; margin-top: 8vh;">
             <div class="logo-m">M</div>
             <h1 style="font-family:'Orbitron'; font-size: 35px; margin:0;">MOZTY <span style="color:var(--p)">2026</span> 🍌</h1>
-            <p style="opacity: 0.6;">سيستم الأبطال والعمالقة</p>
+            <p style="opacity: 0.6;">Kemo</p>
             <div id="startButtons" class="glass" style="margin-top: 40px;">
                 <button class="neo-btn" onclick="show('signup')">موزة جديدة 🍌</button>
                 <button class="neo-btn" style="margin-top:10px; background:none; border:1px solid var(--p); color:var(--p)" onclick="show('login')">تسجيل دخول</button>
             </div>
+            <div class="rights-box">ALL RIGHTS RESERVED TO KAREEM OMAR</div>
         </div>
     </div>
 
@@ -98,7 +109,7 @@
             <h2 class="section-title">انضم للسباطه 🍌</h2>
             <input type="text" id="regName" placeholder="الاسم الكامل">
             <input type="tel" id="regPhone" placeholder="رقم الموبايل">
-            <input type="tel" id="rekowmy" placeholder="الرقم القومي">
+            <input type="tel" id="rekowmy" placeholder="الرقم القومي (14 رقم)">
             <input type="password" id="regPass" placeholder="كلمة السر (6 أرقام على الأقل)">
             <select id="regGov"></select>
             <button class="neo-btn" onclick="app.signup()">تجهيز الحساب 🚀</button>
@@ -119,7 +130,7 @@
             <div>
                 <h3 id="u-name" style="margin:0">..</h3>
                 <small id="u-location" style="color:var(--p)"></small>
-                <div style="margin-top:5px; font-size:12px">الرتبة: <span style="color:var(--a)">موزة ذهبية 🍌</span></div>
+                <div style="margin-top:5px; font-size:12px">الرتبة: <span id="u-rank" style="color:var(--a)">برونزية 🍌</span></div>
             </div>
             <div style="text-align:left">
                 <small>رصيدك</small>
@@ -144,6 +155,10 @@
         <div style="display:flex; align-items:center; gap:15px; margin-bottom:20px">
             <i class="fas fa-arrow-right" onclick="show('dash')" style="cursor:pointer; color:var(--p); font-size: 20px;"></i>
             <h2 id="current-course-title" style="margin:0">المحاضرات 🍌</h2>
+        </div>
+        <div class="glass">
+            <small>نسبة الإنجاز في الكورس:</small>
+            <div class="progress-container"><div id="course-progress-bar" class="progress-bar"></div></div>
         </div>
         <div id="lectures-container"></div>
     </div>
@@ -171,12 +186,19 @@
                 <span>الإجمالي:</span>
                 <span id="cart-total" style="color:var(--a)">0</span>
             </div>
-            <button class="neo-btn" onclick="app.checkout()">تأكيد عملية الشراء 🍌</button>
+            <button class="neo-btn" onclick="app.confirmPurchase()">إتمام عملية الشراء 🍌</button>
         </div>
     </div>
 
     <div id="adminPage" class="page">
         <h2 class="section-title">👑 لوحة تحكم العمالقة</h2>
+        
+        <div class="admin-stats">
+            <div class="stat-card">الأرباح<b id="stat-income">0</b></div>
+            <div class="stat-card">الطلاب<b id="stat-students">0</b></div>
+            <div class="stat-card">الكتب<b id="stat-books">0</b></div>
+        </div>
+
         <div class="glass">
             <h3 style="color:var(--a)">إدارة أرصدة الموز 🍌</h3>
             <input type="tel" id="adm-user-phone" placeholder="رقم هاتف الطالب">
@@ -185,6 +207,13 @@
                 <button class="neo-btn" style="background:var(--success)" onclick="app.adminModifyBalance('add')">إضافة رصيد</button>
                 <button class="neo-btn" style="background:var(--danger)" onclick="app.adminModifyBalance('sub')">سحب رصيد</button>
             </div>
+        </div>
+
+        <div class="glass">
+            <h3 style="color:var(--p)">إضافة منتج جديد للمتجر</h3>
+            <input type="text" id="new-book-name" placeholder="اسم الكتاب">
+            <input type="number" id="new-book-price" placeholder="سعر الكتاب">
+            <button class="neo-btn" onclick="app.adminAddBook()">إضافة المنتج 📚</button>
         </div>
 
         <h3 class="section-title">📊 سجل مراقبة السيستم</h3>
@@ -197,14 +226,13 @@
         <i class="fas fa-shopping-basket" id="nav-cart" onclick="show('cart')"></i>
         <i class="fas fa-user-cog" id="nav-vault" onclick="show('vault')"></i>
         <i class="fas fa-shield-alt" id="nav-admin" style="display:none" onclick="show('admin')"></i>
-        <i class="fas fa-sign-out-alt" onclick="app.logout()"></i>
+        <i class="fas fa-sign-out-alt" onclick="app.confirmLogout()"></i>
     </nav>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getDatabase, ref, set, get, update, onValue, remove, push } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-        // نفس الإعدادات الخاصة بك
         const firebaseConfig = {
             apiKey: "AIzaSyBeFBDq6UQx66dkodgBIskwGYhKFiA4m9c",
             authDomain: "moza2026-805ac.firebaseapp.com",
@@ -218,7 +246,8 @@
         const fApp = initializeApp(firebaseConfig);
         const db = getDatabase(fApp);
 
-        const GOVS = ["القاهرة", "الجيزة", "الإسكندرية", "الدقهلية", "الشرقية", "الغربية", "المنوفية", "البحيرة", "القليوبية", "دمياط", "كفر الشيخ", "الفيوم", "بني سويف", "المنيا", "أسيوط", "سوهاج", "قنا", "الأقصر", "أسوان"];
+        // جميع محافظات مصر الـ 27
+        const GOVS = ["القاهرة", "الجيزة", "الإسكندرية", "الدقهلية", "الشرقية", "الغربية", "المنوفية", "البحيرة", "القليوبية", "دمياط", "كفر الشيخ", "الفيوم", "بني سويف", "المنيا", "أسيوط", "سوهاج", "قنا", "الأقصر", "أسوان", "مرسى مطروح", "الوادي الجديد", "البحر الأحمر", "شمال سيناء", "جنوب سيناء", "بورسعيد", "السويس", "الإسماعيلية"];
         
         const DATA = {
             courses: [
@@ -226,18 +255,11 @@
                 { id: 'c2', name: 'كورس الموزة النووية (عضوية) 🍌', price: 550 },
                 { id: 'c3', name: 'مراجعة ليلة الحساب 🍌', price: 300 }
             ],
-            books: [
-                { id: 'b1', name: 'مذكرة العضوية 🍌', price: 85 },
-                { id: 'b2', name: 'كتاب الأسئلة الشامل', price: 110 },
-                { id: 'b3', name: 'ملخص القوانين الذهبي', price: 50 },
-                { id: 'b4', name: 'مفاهيم الكيمياء 2026', price: 70 },
-                { id: 'b5', name: 'بنك الأسئلة الوزاري', price: 150 }
-            ],
             lectures: [
-                { id: 1, title: "الدحيح - اليقين", videoId: "SshM9L2p5Yg" },
-                { id: 2, title: "الدحيح - لغة الحيوانات", videoId: "j_zBw7Vf3f0" },
-                { id: 3, title: "الدحيح - الأرق", videoId: "W9r6p0XmE9k" },
-                { id: 4, title: "الدحيح - الذكاء الاصطناعي", videoId: "2-Y_l0S6iMc" }
+                { id: "l1", title: "الدحيح - اليقين", videoId: "SshM9L2p5Yg" },
+                { id: "l2", title: "الدحيح - لغة الحيوانات", videoId: "j_zBw7Vf3f0" },
+                { id: "l3", title: "الدحيح - الأرق", videoId: "W9r6p0XmE9k" },
+                { id: "l4", title: "الدحيح - الذكاء الاصطناعي", videoId: "2-Y_l0S6iMc" }
             ]
         };
 
@@ -245,6 +267,8 @@
             user: null, 
             cart: [],
             isProcessing: false,
+            // بصمة الجهاز
+            deviceID: localStorage.getItem('moza_deviceID') || (localStorage.setItem('moza_deviceID', 'dev-'+Math.random().toString(36).substr(2, 9)), localStorage.getItem('moza_deviceID')),
 
             init: function() {
                 const selects = [document.getElementById('regGov'), document.getElementById('editGov')];
@@ -263,7 +287,15 @@
                 try {
                     const snap = await get(ref(db, 'users/' + phone));
                     if (snap.exists()) {
-                        this.user = snap.val();
+                        const userData = snap.val();
+                        // حماية الجهاز
+                        if(userData.currentDevice && userData.currentDevice !== this.deviceID) {
+                            this.alert("أوباااا!", "الحساب مفتوح من جهاز تاني يا بطل! اخرج منه الأول.", "warning");
+                            localStorage.removeItem('moza_user');
+                            location.reload();
+                            return;
+                        }
+                        this.user = userData;
                         this.startSession();
                     } else { localStorage.removeItem('moza_user'); }
                 } catch(e) { console.error(e); }
@@ -275,15 +307,19 @@
                 const phone = document.getElementById('regPhone').value;
                 const name = document.getElementById('regName').value;
                 const pass = document.getElementById('regPass').value;
-                if(phone.length < 11 || pass.length < 6) return this.alert("خطأ", "تأكد من البيانات (السر 6 أرقام)", "error");
+                const kowmy = document.getElementById('rekowmy').value;
+
+                if(phone.length < 11 || pass.length < 6 || kowmy.length !== 14) 
+                    return this.alert("خطأ", "ظبط بياناتك يا وحش (الرقم القومي 14 رقم والسر 6)", "error");
                 
                 await set(ref(db, 'users/' + phone), {
-                    name, phone, pass, balance: 0, owned: ["none"],
+                    name, phone, pass, kowmy, balance: 0, totalSpent: 0, 
+                    owned: ["none"], progress: {}, currentDevice: this.deviceID,
                     gov: document.getElementById('regGov').value,
                     role: (phone === "01159562785") ? "admin" : "user"
                 });
-                this.logActivity(phone, name, "إنشاء حساب جديد", "add");
-                this.alert("يا هلا!", "تم التسجيل بنجاح!", "success");
+                this.logActivity(phone, name, "سجل في المنصة لأول مرة 🍌", "add");
+                this.alert("نورت يا بطل!", "تم التسجيل بنجاح! خش برِجلك اليمين.", "success");
                 window.show('login');
             },
 
@@ -292,29 +328,37 @@
                 const pass = document.getElementById('loginPass').value;
                 const snap = await get(ref(db, 'users/' + p));
                 if(snap.exists() && snap.val().pass === pass) {
+                    // تحديث بصمة الجهاز عند الدخول الناجح
+                    await update(ref(db, 'users/' + p), { currentDevice: this.deviceID });
                     this.user = snap.val();
                     localStorage.setItem('moza_user', p);
+                    this.logActivity(p, this.user.name, "سجل دخوله الآن ✅", "add");
                     this.bananaRain();
                     this.startSession();
-                } else this.alert("خطأ", "بياناتك غلط يا صاحبي!", "error");
+                } else this.alert("خطأ", "بياناتك غلط يا صاحبي! ركز شوية.", "error");
             },
 
             startSession: function() {
                 window.show('dash');
                 document.getElementById('navbar').style.display = 'flex';
-                if(this.user.role === "admin") document.getElementById('nav-admin').style.display = 'block';
+                if(this.user.role === "admin") {
+                    document.getElementById('nav-admin').style.display = 'block';
+                    this.updateAdminStats();
+                }
                 
-                // تحديث البيانات لحظياً
                 onValue(ref(db, 'users/' + this.user.phone), (s) => {
-                    if(s.exists()) { this.user = s.val(); this.syncUI(); }
+                    if(s.exists()) { 
+                        const oldBal = this.user.balance;
+                        this.user = s.val(); 
+                        if(this.user.balance > oldBal) {
+                            Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: `طااااخ! الأدمن شحنلك ${this.user.balance - oldBal} ج 🍌`, showConfirmButton: false, timer: 3000 });
+                        }
+                        this.syncUI(); 
+                    }
                 });
 
-                // تحديث سجل الأدمن إذا كان أدمن
-                if(this.user.role === "admin") {
-                    onValue(ref(db, 'global_logs'), (s) => { this.renderAdminLogs(s.val()); });
-                }
-
-                // تحديث سجل الطالب
+                onValue(ref(db, 'store_books'), (s) => { this.renderStore(s.val()); });
+                if(this.user.role === "admin") onValue(ref(db, 'global_logs'), (s) => { this.renderAdminLogs(s.val()); });
                 onValue(ref(db, 'logs/' + this.user.phone), (s) => { this.renderUserLogs(s.val()); });
             },
 
@@ -323,10 +367,19 @@
                 document.getElementById('u-location').innerText = "📍 " + this.user.gov;
                 document.getElementById('u-balance').innerText = this.user.balance;
                 document.getElementById('editName').value = this.user.name;
-                this.renderStore();
+                
+                // تحديث الرتبة
+                let rank = "موزة برونزية 🥉";
+                const spent = this.user.totalSpent || 0;
+                if(spent >= 2000) rank = "موزة VIP 💎";
+                else if(spent >= 1000) rank = "موزة ذهبية 🥇";
+                else if(spent >= 500) rank = "موزة فضية 🥈";
+                document.getElementById('u-rank').innerText = rank;
+
+                this.renderCourses();
             },
 
-            renderStore: function() {
+            renderCourses: function() {
                 const cList = document.getElementById('course-list'); cList.innerHTML = '';
                 DATA.courses.forEach(c => {
                     const isBought = (this.user.owned || []).includes(c.id);
@@ -337,29 +390,45 @@
                         `<button class="neo-btn" style="width:100px" onclick="app.addToCart('${c.id}', 'course')">شراء</button>`}
                     </div>`;
                 });
+            },
 
+            renderStore: function(dbBooks) {
                 const bStore = document.getElementById('book-store'); bStore.innerHTML = '';
-                DATA.books.forEach(b => {
+                // كتب ثابتة
+                const baseBooks = [
+                    { id: 'b1', name: 'مذكرة العضوية 🍌', price: 85 },
+                    { id: 'b2', name: 'كتاب الأسئلة الشامل', price: 110 }
+                ];
+                const allBooks = [...baseBooks, ...(dbBooks ? Object.values(dbBooks) : [])];
+                
+                allBooks.forEach(b => {
                     bStore.innerHTML += `<div class="glass" style="text-align:center">
                         <small>${b.name}</small><br><b>${b.price} ج</b><br>
-                        <button class="neo-btn" style="padding:5px; margin-top:10px; font-size:12px" onclick="app.addToCart('${b.id}', 'book')">أضف للسلة</button>
+                        <button class="neo-btn" style="padding:5px; margin-top:10px; font-size:12px" onclick="app.addToCart('${b.id}', 'book', '${b.name}', ${b.price})">أضف للسلة</button>
                     </div>`;
                 });
             },
 
-            addToCart: function(id, type) {
-                const item = (type === 'course') ? DATA.courses.find(c => c.id === id) : DATA.books.find(b => b.id === id);
-                if (type === 'course' && this.cart.find(i => i.id === id)) return;
-                this.cart.push({...item, type});
+            addToCart: function(id, type, name="", price=0) {
+                // منع تكرار الكورسات فقط، الكتب عادي
+                if (type === 'course' && ((this.user.owned || []).includes(id) || this.cart.find(i => i.id === id))) {
+                    return this.alert("يا بطل!", "الكورس ده عندك فعلاً أو في السلة.", "warning");
+                }
+                
+                let item;
+                if(type === 'course') item = DATA.courses.find(c => c.id === id);
+                else item = {id, name, price, type: 'book'};
+
+                this.cart.push(item);
                 this.updateCartUI();
-                Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'تمت الإضافة 🛒', showConfirmButton: false, timer: 1000 });
+                Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'رميت في السلة 🛒', showConfirmButton: false, timer: 1000 });
             },
 
             updateCartUI: function() {
                 const list = document.getElementById('cart-items'); list.innerHTML = '';
                 let total = 0;
                 this.cart.forEach((item, idx) => {
-                    total += item.price;
+                    total += parseInt(item.price);
                     list.innerHTML += `<div class="glass" style="display:flex; justify-content:space-between; align-items:center; padding: 15px;">
                         <span>${item.name}</span>
                         <b>${item.price} ج <i class="fas fa-trash" style="color:var(--danger); cursor:pointer" onclick="app.removeFromCart(${idx})"></i></b>
@@ -371,92 +440,67 @@
 
             removeFromCart: function(idx) { this.cart.splice(idx,1); this.updateCartUI(); },
 
+            confirmPurchase: function() {
+                const total = document.getElementById('cart-total').innerText;
+                let itemsList = this.cart.map(i => i.name).join(', ');
+                
+                Swal.fire({
+                    title: 'تأكيد عملية الشراء؟',
+                    text: `هيتم خصم ${total} ج من رصيدك مقابل: ${itemsList}`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'إخصم يا موزة ✅',
+                    cancelButtonText: 'لأ استنى',
+                    background: '#050508', color: '#fff'
+                }).then((result) => {
+                    if (result.isConfirmed) this.checkout();
+                });
+            },
+
             checkout: async function() {
                 if(this.isProcessing) return;
-                let total = document.getElementById('cart-total').innerText;
-                if(this.user.balance < total) return this.alert("عذراً", "رصيدك غير كافٍ شحن يا موزة 🍌", "warning");
+                let total = parseInt(document.getElementById('cart-total').innerText);
+                if(this.user.balance < total) return this.alert("عذراً", "رصيدك مش مكفي شحن يا موزة 🍌", "warning");
 
                 this.isProcessing = true;
                 const newBalance = this.user.balance - total;
-                const newlyOwned = this.cart.map(i => i.id);
+                const newTotalSpent = (this.user.totalSpent || 0) + total;
+                const newlyOwned = this.cart.filter(i => i.type === 'course').map(i => i.id);
                 const updatedOwned = Array.from(new Set([...(this.user.owned || []), ...newlyOwned]));
 
                 try {
-                    await update(ref(db, 'users/' + this.user.phone), { balance: newBalance, owned: updatedOwned });
-                    this.logActivity(this.user.phone, this.user.name, `شراء منتجات بقيمة ${total} ج`, "sub");
+                    await update(ref(db, 'users/' + this.user.phone), { 
+                        balance: newBalance, 
+                        owned: updatedOwned,
+                        totalSpent: newTotalSpent
+                    });
                     
+                    this.logActivity(this.user.phone, this.user.name, `اشترى حاجات بـ ${total} ج 🛍️`, "sub");
+                    
+                    // تأثير النجاح
+                    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+                    
+                    const msg = `أنا الطالب: ${this.user.name}\nاشتريت حاجات بـ ${total} ج\nرصيدي المتبقي: ${newBalance} ج\nأرجو تفعيل المحتوى.`;
+                    window.open(`https://wa.me/201159562785?text=${encodeURIComponent(msg)}`);
+
                     this.cart = []; this.updateCartUI();
-                    this.alert("تم الشراء!", "تم خصم الرصيد بنجاح 🍌", "success");
+                    this.alert("تم الشحن بنجاح!", "المحتوى اتفتح، اتفرج بقى يا بطل 🍌", "success");
                     this.isProcessing = false;
                     window.show('dash');
                 } catch(e) { this.isProcessing = false; }
             },
 
-            // دالة تسجيل النشاط (Security & Logs)
-            logActivity: function(phone, name, action, type) {
-                const logData = {
-                    name, phone, action, type,
-                    date: new Date().toLocaleString('ar-EG')
-                };
-                push(ref(db, 'logs/' + phone), logData);
-                push(ref(db, 'global_logs'), logData);
-            },
-
-            renderUserLogs: function(data) {
-                const cont = document.getElementById('user-logs');
-                if(!data) { cont.innerHTML = '<p style="text-align:center; opacity:0.5">لا يوجد سجل</p>'; return; }
-                cont.innerHTML = Object.values(data).reverse().map(l => `
-                    <div class="log-item">
-                        <span class="${l.type === 'add' ? 'log-add' : 'log-sub'}">${l.action}</span>
-                        <small style="opacity:0.5">${l.date}</small>
-                    </div>
-                `).join('');
-            },
-
-            clearMyLogs: function() {
-                remove(ref(db, 'logs/' + this.user.phone));
-                this.alert("تم", "تم حذف سجلك الشخصي", "success");
-            },
-
-            // وظائف الأدمن (إضافة وسحب)
-            adminModifyBalance: async function(mode) {
-                const phone = document.getElementById('adm-user-phone').value;
-                const amount = parseInt(document.getElementById('adm-amount').value);
-                if(!phone || isNaN(amount)) return this.alert("خطأ", "دخل بيانات صح", "error");
-
-                const snap = await get(ref(db, 'users/' + phone));
-                if(!snap.exists()) return this.alert("خطأ", "المستخدم غير موجود", "error");
-
-                let currentBalance = snap.val().balance || 0;
-                let newBalance = (mode === 'add') ? currentBalance + amount : currentBalance - amount;
-                
-                if(newBalance < 0) newBalance = 0;
-
-                await update(ref(db, 'users/' + phone), { balance: newBalance });
-                this.logActivity(phone, snap.val().name, `${mode === 'add' ? 'إضافة' : 'سحب'} رصيد بقيمة ${amount} ج بواسطة الإدارة`, mode);
-                this.alert("تم", "تمت العملية بنجاح", "success");
-            },
-
-            renderAdminLogs: function(data) {
-                const cont = document.getElementById('admin-global-logs');
-                if(!data) { cont.innerHTML = 'لا يوجد سجلات عامة'; return; }
-                cont.innerHTML = Object.values(data).reverse().map(l => `
-                    <div class="log-item" style="flex-direction:column; align-items:start">
-                        <div><b>${l.name} (${l.phone})</b></div>
-                        <div class="${l.type === 'add' ? 'log-add' : 'log-sub'}">${l.action}</div>
-                        <small style="opacity:0.5">${l.date}</small>
-                    </div>
-                `).join('');
-            },
-
-            adminClearAllLogs: function() {
-                remove(ref(db, 'global_logs'));
-                this.alert("تم", "تم تصغير السجل العام", "success");
-            },
-
             openCourse: function(id, name) {
+                if(!(this.user.owned || []).includes(id)) {
+                    this.logActivity(this.user.phone, this.user.name, `محاولة دخول فاشلة لكورس ${name} ⚠️`, "sub");
+                    window.show('cart');
+                    return this.alert("إقف عندك!", "اشترك في الكورس أولاً يا بطل عشان تشوف العظمة.", "warning");
+                }
+                
                 document.getElementById('current-course-title').innerText = name;
                 window.show('courseContent');
+                this.updateProgressUI(id);
+                
                 const cont = document.getElementById('lectures-container');
                 cont.innerHTML = '';
                 DATA.lectures.forEach(l => {
@@ -464,48 +508,152 @@
                     <div class="lecture-box">
                         <b>${l.title}</b>
                         <div class="lecture-btns">
-                            <button class="lec-btn" onclick="app.viewVideo('${l.videoId}', '${l.title}')"><i class="fas fa-play"></i> فيديو</button>
-                            <button class="lec-btn"><i class="fas fa-file-pdf"></i> ملزمة</button>
+                            <button class="lec-btn" onclick="app.viewVideo('${l.videoId}', '${l.title}', '${id}', '${l.id}')"><i class="fas fa-play"></i> فيديو</button>
+                            <button class="lec-btn" onclick="app.viewPDF()"><i class="fas fa-file-pdf"></i> ملزمة</button>
                             <button class="lec-btn"><i class="fas fa-pen"></i> اختبار</button>
                         </div>
                     </div>`;
                 });
             },
 
-            viewVideo: function(id, title) {
-                // تسجيل أن الطالب سمع الفيديو
-                this.logActivity(this.user.phone, this.user.name, `مشاهدة فيديو: ${title}`, "add");
-                
+            viewVideo: async function(vId, title, cId, lId) {
+                // تسجيل المشاهدة والتقدم
+                const progressKey = `progress/${cId}/${lId}`;
+                await update(ref(db, 'users/' + this.user.phone), { [progressKey]: true });
+                this.logActivity(this.user.phone, this.user.name, `شاهد فيديو: ${title} 📺`, "view");
+                this.updateProgressUI(cId);
+
                 Swal.fire({ 
-                    html: `
-                    <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
-                        <iframe style="position:absolute;top:0;left:0;width:100%;height:100%;" 
-                            src="https://www.youtube.com/embed/${id}?rel=0&modestbranding=1&showinfo=0" 
-                            frameborder="0" allowfullscreen></iframe>
-                    </div>`,
+                    html: `<div style="position:relative;padding-bottom:56.25%;height:0;"><iframe src="https://www.youtube.com/embed/${vId}" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allowfullscreen></iframe></div>`,
                     showConfirmButton: false, background: '#000', width: '95%' 
                 });
             },
 
+            updateProgressUI: function(cId) {
+                const userProgress = this.user.progress?.[cId] || {};
+                const watchedCount = Object.keys(userProgress).length;
+                const total = DATA.lectures.length;
+                const percent = (watchedCount / total) * 100;
+                document.getElementById('course-progress-bar').style.width = percent + '%';
+            },
+
+            viewPDF: function() {
+                this.alert("تحذير ⚠️", "ممنوع تصوير الملازم أو نشرها.. مستر موزة بيشوفك! 🍌", "info");
+            },
+
+            logActivity: function(phone, name, action, type) {
+                const logData = { name, phone, action, type, date: new Date().toLocaleString('ar-EG') };
+                push(ref(db, 'logs/' + phone), logData);
+                push(ref(db, 'global_logs'), logData);
+            },
+
+            // وظائف الأدمن
+            adminAddBook: async function() {
+                const name = document.getElementById('new-book-name').value;
+                const price = document.getElementById('new-book-price').value;
+                if(!name || !price) return;
+                await push(ref(db, 'store_books'), { name, price, id: 'dbb_'+Date.now() });
+                this.alert("تم!", "الكتاب نزل المتجر والطلبة هتهجم عليه 🍌", "success");
+            },
+
+            adminModifyBalance: async function(mode) {
+                const phone = document.getElementById('adm-user-phone').value;
+                const amount = parseInt(document.getElementById('adm-amount').value);
+                const snap = await get(ref(db, 'users/' + phone));
+                if(!snap.exists()) return this.alert("خطأ", "مين ده؟ الطالب مش عندي!", "error");
+                
+                let newBal = (mode === 'add') ? (snap.val().balance + amount) : (snap.val().balance - amount);
+                await update(ref(db, 'users/' + phone), { balance: Math.max(0, newBal) });
+                this.logActivity(phone, snap.val().name, `${mode === 'add' ? 'إضافة' : 'سحب'} ${amount} ج من الإدارة 👑`, mode);
+                this.alert("تم!", "المهمة تمت بنجاح يا زعيم.", "success");
+            },
+
+            adminRefund: async function(phone, logKey, amount) {
+                Swal.fire({
+                    title: 'هل تريد إرجاع المنتج؟',
+                    text: "سيتم سحب الوصول ورجوع الفلوس للمحفظة.",
+                    icon: 'warning',
+                    showCancelButton: true
+                }).then(async (r) => {
+                    if(r.isConfirmed) {
+                        const snap = await get(ref(db, 'users/' + phone));
+                        const u = snap.val();
+                        await update(ref(db, 'users/' + phone), { 
+                            balance: u.balance + parseInt(amount),
+                            owned: u.owned.slice(0, -1) // حذف آخر كورس تم شراؤه كمثال
+                        });
+                        this.logActivity(phone, u.name, `مرتجع بقيمة ${amount} ج 💰`, "add");
+                        this.alert("تم الارتجاع", "الفلوس رجعت للطالب يا طيب.", "success");
+                    }
+                });
+            },
+
+            updateAdminStats: function() {
+                onValue(ref(db, 'users'), s => {
+                    const users = s.val() || {};
+                    const uList = Object.values(users);
+                    document.getElementById('stat-students').innerText = uList.length;
+                    let totalIncome = 0;
+                    uList.forEach(u => totalIncome += (u.totalSpent || 0));
+                    document.getElementById('stat-income').innerText = totalIncome + " ج";
+                });
+                onValue(ref(db, 'store_books'), s => {
+                    document.getElementById('stat-books').innerText = Object.keys(s.val() || {}).length + 5;
+                });
+            },
+
+            renderAdminLogs: function(data) {
+                const cont = document.getElementById('admin-global-logs');
+                if(!data) { cont.innerHTML = 'لا يوجد سجلات عامة'; return; }
+                cont.innerHTML = Object.entries(data).reverse().map(([key, l]) => `
+                    <div class="log-item" style="flex-direction:column; align-items:start">
+                        <div style="width:100%; display:flex; justify-content:space-between">
+                            <b>${l.name} (${l.phone})</b>
+                            ${l.action.includes('اشترى') ? `<button onclick="app.adminRefund('${l.phone}', '${key}', '${l.action.match(/\d+/)?.[0]}')" style="background:var(--danger); color:#fff; border:none; border-radius:5px; font-size:10px; cursor:pointer">إرجاع</button>` : ''}
+                        </div>
+                        <div class="${l.type === 'add' ? 'log-add' : l.type === 'view' ? 'log-view' : 'log-sub'}">${l.action}</div>
+                        <small style="opacity:0.5">${l.date}</small>
+                    </div>`).join('');
+            },
+
+            renderUserLogs: function(data) {
+                const cont = document.getElementById('user-logs');
+                if(!data) { cont.innerHTML = 'سجلك فاضي يا أبيض.'; return; }
+                cont.innerHTML = Object.values(data).reverse().map(l => `
+                    <div class="log-item">
+                        <span class="${l.type === 'add' ? 'log-add' : l.type === 'view' ? 'log-view' : 'log-sub'}">${l.action}</span>
+                        <small style="opacity:0.5">${l.date}</small>
+                    </div>`).join('');
+            },
+
+            confirmLogout: function() {
+                Swal.fire({
+                    title: 'عايز تسيبني يا موزة؟',
+                    text: "دانا اديتك أكبر عضو فيا.. ظوفري! متخرجش يا بطل.",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'هخرج خلاص',
+                    cancelButtonText: 'قاعد لعيونك'
+                }).then((r) => { if(r.isConfirmed) this.logout(); });
+            },
+
             logout: function() {
+                this.logActivity(this.user.phone, this.user.name, "سجل خروج 🚪", "sub");
                 localStorage.removeItem('moza_user'); location.reload();
             },
 
             contactForCharge: function() {
-                window.open(`https://wa.me/201159562785?text=محتاج أشحن رصيد يا مستر موزة، اسمي: ${this.user.name}`);
+                const msg = `أنا الطالب: ${this.user.name}\nرقمي: ${this.user.phone}\nرصيدي: ${this.user.balance} ج\nمحافظتي: ${this.user.gov}\nمحتاج أشحن موز يا مستر! 🍌`;
+                window.open(`https://wa.me/201159562785?text=${encodeURIComponent(msg)}`);
             },
 
             alert: function(t, txt, i) { Swal.fire({title: t, text: txt, icon: i, confirmButtonColor: '#00f2ff', background: '#050508', color: '#fff'}); },
             
             bananaRain: function() {
                 for(let i=0; i<30; i++) {
-                    const b = document.createElement('div');
-                    b.className = 'banana-emoji';
-                    b.innerText = '🍌';
-                    b.style.left = Math.random() * 100 + 'vw';
-                    b.style.animationDuration = (Math.random() * 2 + 1) + 's';
-                    document.body.appendChild(b);
-                    setTimeout(() => b.remove(), 3000);
+                    const b = document.createElement('div'); b.className = 'banana-emoji'; b.innerText = '🍌';
+                    b.style.left = Math.random() * 100 + 'vw'; b.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                    document.body.appendChild(b); setTimeout(() => b.remove(), 3000);
                 }
             }
         };
