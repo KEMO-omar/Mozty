@@ -54,13 +54,24 @@
 
         .section-title { font-family: 'Orbitron'; font-size: 18px; color: var(--p); margin: 25px 0 15px; display: flex; align-items: center; gap: 10px; }
 
+        /* تعديل شريط التنقل ليحتوي على أيقونات التواصل الاجتماعي */
         nav { 
             position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); 
-            background: rgba(10, 10, 15, 0.9); border: 1px solid var(--p); border-radius: 40px; 
-            padding: 10px 30px; display: flex; gap: 20px; z-index: 1000;
+            background: rgba(10, 10, 15, 0.95); border: 1px solid var(--p); border-radius: 40px; 
+            padding: 10px 20px; display: flex; gap: 15px; z-index: 1000;
+            box-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
         }
-        nav i { font-size: 22px; color: #444; cursor: pointer; transition: 0.3s; }
-        nav i.active-nav { color: var(--p); transform: scale(1.2); text-shadow: 0 0 10px var(--p); }
+        nav a { text-decoration: none; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+        nav i { font-size: 24px; color: #fff; cursor: pointer; transition: 0.3s; }
+        
+        /* ألوان أيقونات التواصل */
+        .fa-facebook { color: #1877F2; }
+        .fa-whatsapp { color: #25D366; }
+        .fa-instagram { color: #E4405F; }
+        .fa-globe { color: var(--p); }
+        .fa-tiktok { color: #fff; }
+
+        nav a:hover { transform: scale(1.2); filter: drop-shadow(0 0 8px currentColor); }
 
         .log-item { font-size: 12px; border-bottom: 1px solid #333; padding: 8px 0; display: flex; justify-content: space-between; }
         .log-add { color: var(--success); }
@@ -242,11 +253,18 @@
     </div>
 
     <nav id="navbar" style="display:none">
-        <i class="fas fa-home" id="nav-dash" onclick="show('dash')"></i>
-        <i class="fas fa-shopping-basket" id="nav-cart" onclick="show('cart')"></i>
-        <i class="fas fa-user-cog" id="nav-vault" onclick="show('vault')"></i>
-        <i class="fas fa-shield-alt" id="nav-admin" style="display:none" onclick="show('admin')"></i>
-        <i class="fas fa-sign-out-alt" onclick="app.confirmLogout()"></i>
+        <a href="https://www.facebook.com/kareem.omar.7547" target="_blank" title="فيس بوك"><i class="fab fa-facebook"></i></a>
+        <a href="https://wa.me/201159562785" target="_blank" title="واتساب"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://www.instagram.com/kareemomar17" target="_blank" title="انستجرام"><i class="fab fa-instagram"></i></a>
+        <a href="https://kemo-omar.github.io/Kareem/" target="_blank" title="الموقع الشخصي"><i class="fas fa-globe"></i></a>
+        <a href="https://www.tiktok.com/" target="_blank" title="تيك توك"><i class="fab fa-tiktok"></i></a>
+        
+        <div style="width: 2px; background: rgba(255,255,255,0.1); height: 24px; margin: 0 5px;"></div>
+        <i class="fas fa-home" id="nav-dash" onclick="show('dash')" title="الرئيسية"></i>
+        <i class="fas fa-shopping-basket" id="nav-cart" onclick="show('cart')" title="السلة"></i>
+        <i class="fas fa-user-cog" id="nav-vault" onclick="show('vault')" title="الحساب"></i>
+        <i class="fas fa-shield-alt" id="nav-admin" style="display:none" onclick="show('admin')" title="الإدارة"></i>
+        <i class="fas fa-sign-out-alt" onclick="app.confirmLogout()" title="خروج"></i>
     </nav>
 
     <script type="module">
@@ -326,7 +344,6 @@
                 const pass = document.getElementById('regPass').value;
                 const kowmy = document.getElementById('rekowmy').value;
 
-                // التحقق من الاسم الثلاثي (على الأقل مسافتين)
                 const nameParts = name.split(' ').filter(part => part.length > 0);
                 if(nameParts.length < 3) return this.alert("خطأ", "لازم تكتب اسمك الثلاثي يا بطل! 🍌", "error");
 
