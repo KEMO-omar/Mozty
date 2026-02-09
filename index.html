@@ -78,7 +78,7 @@
         .banana-emoji { position: fixed; top: -50px; z-index: 9999; font-size: 24px; animation: fall linear forwards; pointer-events: none; }
         @keyframes fall { to { transform: translateY(105vh) rotate(360deg); } }
 
-        .rights-box { text-align: center; font-size: 10px; opacity: 0.5; font-family: 'Orbitron'; padding: 10px; color: var(--p); }
+        .rights-box { text-align: center; font-size: 10px; opacity: 0.5; font-family: 'Orbitron'; padding: 10px; color: var(--p); width: 100%; }
         .admin-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
         .stat-card { background: var(--card); padding: 10px; border-radius: 15px; text-align: center; border: 1px solid var(--border); }
         .stat-card b { color: var(--a); display: block; font-size: 16px; }
@@ -107,13 +107,14 @@
     <div id="signupPage" class="page">
         <div class="glass">
             <h2 class="section-title">انضم للسباطه 🍌</h2>
-            <input type="text" id="regName" placeholder="الاسم الكامل">
+            <input type="text" id="regName" placeholder="الاسم الكامل (ثلاثي على الأقل)">
             <input type="tel" id="regPhone" placeholder="رقم الموبايل">
             <input type="tel" id="rekowmy" placeholder="الرقم القومي (14 رقم)">
             <input type="password" id="regPass" placeholder="كلمة السر (6 أرقام على الأقل)">
             <select id="regGov"></select>
             <button class="neo-btn" onclick="app.signup()">تجهيز الحساب 🚀</button>
         </div>
+        <div class="rights-box">ALL RIGHTS RESERVED TO KAREEM OMAR</div>
     </div>
 
     <div id="loginPage" class="page">
@@ -123,13 +124,15 @@
             <input type="password" id="loginPass" placeholder="كلمة السر">
             <button class="neo-btn" onclick="app.login()">دخول الآن 🍌</button>
         </div>
+        <div class="rights-box">ALL RIGHTS RESERVED TO KAREEM OMAR</div>
     </div>
 
     <div id="dashPage" class="page">
         <div class="glass" style="display:flex; justify-content:space-between; align-items:center;">
             <div>
                 <h3 id="u-name" style="margin:0">..</h3>
-                <small id="u-location" style="color:var(--p)"></small>
+                <small id="u-location" style="color:var(--p)"></small><br>
+                <small id="u-id-display" style="color:#fff; opacity:0.8; font-weight:bold;"></small>
                 <div style="margin-top:5px; font-size:12px">الرتبة: <span id="u-rank" style="color:var(--a)">برونزية 🍌</span></div>
             </div>
             <div style="text-align:left">
@@ -148,7 +151,8 @@
         <div class="glass" style="max-height: 200px; overflow-y: auto;" id="user-logs">
             <p style="text-align:center; opacity:0.5">لا يوجد عمليات بعد</p>
         </div>
-        <button class="neo-btn btn-danger" style="padding: 5px; font-size: 12px;" onclick="app.clearMyLogs()">حذف السجل الخاص بي</button>
+        <button class="neo-btn btn-danger" style="padding: 5px; font-size: 12px;" onclick="app.clearUserLogs(app.user.phone)">حذف السجل الخاص بي</button>
+        <div class="rights-box">ALL RIGHTS RESERVED TO KAREEM OMAR</div>
     </div>
 
     <div id="courseContentPage" class="page">
@@ -161,13 +165,20 @@
             <div class="progress-container"><div id="course-progress-bar" class="progress-bar"></div></div>
         </div>
         <div id="lectures-container"></div>
+        <div class="rights-box">ALL RIGHTS RESERVED TO KAREEM OMAR</div>
     </div>
 
     <div id="vaultPage" class="page">
         <h2 class="section-title">⚙️ حسابك الشخصي</h2>
         <div class="glass">
-            <label>الاسم:</label>
+            <label>الاسم الثلاثي:</label>
             <input type="text" id="editName">
+            <label>رقم الموبايل:</label>
+            <input type="tel" id="editPhone">
+            <label>الرقم القومي:</label>
+            <input type="tel" id="editKowmy">
+            <label>كلمة السر:</label>
+            <input type="text" id="editPass">
             <label>المحافظة:</label>
             <select id="editGov"></select>
             <button class="neo-btn" style="background:var(--success)" onclick="app.updateProfile()">تحديث البيانات</button>
@@ -176,6 +187,7 @@
             <p>لشحن المحفظة</p>
             <button class="neo-btn" onclick="app.contactForCharge()">اتصل بمستر موزة للشحن ⚡</button>
         </div>
+        <div class="rights-box">ALL RIGHTS RESERVED TO KAREEM OMAR</div>
     </div>
 
     <div id="cartPage" class="page">
@@ -188,6 +200,7 @@
             </div>
             <button class="neo-btn" onclick="app.confirmPurchase()">إتمام عملية الشراء 🍌</button>
         </div>
+        <div class="rights-box">ALL RIGHTS RESERVED TO KAREEM OMAR</div>
     </div>
 
     <div id="adminPage" class="page">
@@ -210,6 +223,12 @@
         </div>
 
         <div class="glass">
+            <h3 style="color:var(--p)">إدارة الطالب بالكامل</h3>
+            <input type="tel" id="adm-del-phone" placeholder="رقم هاتف الطالب">
+            <button class="neo-btn btn-danger" onclick="app.adminClearUserLogsFromAdmin()">حذف سجل هذا الطالب</button>
+        </div>
+
+        <div class="glass">
             <h3 style="color:var(--p)">إضافة منتج جديد للمتجر</h3>
             <input type="text" id="new-book-name" placeholder="اسم الكتاب">
             <input type="number" id="new-book-price" placeholder="سعر الكتاب">
@@ -219,6 +238,7 @@
         <h3 class="section-title">📊 سجل مراقبة السيستم</h3>
         <div class="glass" style="max-height: 400px; overflow-y: auto;" id="admin-global-logs"></div>
         <button class="neo-btn btn-danger" onclick="app.adminClearAllLogs()">حذف السجل العام نهائياً</button>
+        <div class="rights-box">ALL RIGHTS RESERVED TO KAREEM OMAR</div>
     </div>
 
     <nav id="navbar" style="display:none">
@@ -246,7 +266,6 @@
         const fApp = initializeApp(firebaseConfig);
         const db = getDatabase(fApp);
 
-        // جميع محافظات مصر الـ 27
         const GOVS = ["القاهرة", "الجيزة", "الإسكندرية", "الدقهلية", "الشرقية", "الغربية", "المنوفية", "البحيرة", "القليوبية", "دمياط", "كفر الشيخ", "الفيوم", "بني سويف", "المنيا", "أسيوط", "سوهاج", "قنا", "الأقصر", "أسوان", "مرسى مطروح", "الوادي الجديد", "البحر الأحمر", "شمال سيناء", "جنوب سيناء", "بورسعيد", "السويس", "الإسماعيلية"];
         
         const DATA = {
@@ -267,7 +286,6 @@
             user: null, 
             cart: [],
             isProcessing: false,
-            // بصمة الجهاز
             deviceID: localStorage.getItem('moza_deviceID') || (localStorage.setItem('moza_deviceID', 'dev-'+Math.random().toString(36).substr(2, 9)), localStorage.getItem('moza_deviceID')),
 
             init: function() {
@@ -288,7 +306,6 @@
                     const snap = await get(ref(db, 'users/' + phone));
                     if (snap.exists()) {
                         const userData = snap.val();
-                        // حماية الجهاز
                         if(userData.currentDevice && userData.currentDevice !== this.deviceID) {
                             this.alert("أوباااا!", "الحساب مفتوح من جهاز تاني يا بطل! اخرج منه الأول.", "warning");
                             localStorage.removeItem('moza_user');
@@ -305,9 +322,13 @@
 
             signup: async function() {
                 const phone = document.getElementById('regPhone').value;
-                const name = document.getElementById('regName').value;
+                const name = document.getElementById('regName').value.trim();
                 const pass = document.getElementById('regPass').value;
                 const kowmy = document.getElementById('rekowmy').value;
+
+                // التحقق من الاسم الثلاثي (على الأقل مسافتين)
+                const nameParts = name.split(' ').filter(part => part.length > 0);
+                if(nameParts.length < 3) return this.alert("خطأ", "لازم تكتب اسمك الثلاثي يا بطل! 🍌", "error");
 
                 if(phone.length < 11 || pass.length < 6 || kowmy.length !== 14) 
                     return this.alert("خطأ", "ظبط بياناتك يا وحش (الرقم القومي 14 رقم والسر 6)", "error");
@@ -328,7 +349,6 @@
                 const pass = document.getElementById('loginPass').value;
                 const snap = await get(ref(db, 'users/' + p));
                 if(snap.exists() && snap.val().pass === pass) {
-                    // تحديث بصمة الجهاز عند الدخول الناجح
                     await update(ref(db, 'users/' + p), { currentDevice: this.deviceID });
                     this.user = snap.val();
                     localStorage.setItem('moza_user', p);
@@ -365,10 +385,15 @@
             syncUI: function() {
                 document.getElementById('u-name').innerText = this.user.name + " 🍌";
                 document.getElementById('u-location').innerText = "📍 " + this.user.gov;
+                document.getElementById('u-id-display').innerText = "🪪 " + this.user.kowmy;
                 document.getElementById('u-balance').innerText = this.user.balance;
-                document.getElementById('editName').value = this.user.name;
                 
-                // تحديث الرتبة
+                document.getElementById('editName').value = this.user.name;
+                document.getElementById('editPhone').value = this.user.phone;
+                document.getElementById('editKowmy').value = this.user.kowmy;
+                document.getElementById('editPass').value = this.user.pass;
+                document.getElementById('editGov').value = this.user.gov;
+                
                 let rank = "موزة برونزية 🥉";
                 const spent = this.user.totalSpent || 0;
                 if(spent >= 2000) rank = "موزة VIP 💎";
@@ -377,6 +402,23 @@
                 document.getElementById('u-rank').innerText = rank;
 
                 this.renderCourses();
+            },
+
+            updateProfile: async function() {
+                const name = document.getElementById('editName').value.trim();
+                const phone = document.getElementById('editPhone').value;
+                const kowmy = document.getElementById('editKowmy').value;
+                const pass = document.getElementById('editPass').value;
+                const gov = document.getElementById('editGov').value;
+
+                const nameParts = name.split(' ').filter(part => part.length > 0);
+                if(nameParts.length < 3) return this.alert("خطأ", "الاسم لازم يبقى ثلاثي يا بطل!", "error");
+                if(kowmy.length !== 14 || pass.length < 6) return this.alert("خطأ", "تأكد من الرقم القومي وكلمة السر", "error");
+
+                try {
+                    await update(ref(db, 'users/' + this.user.phone), { name, kowmy, pass, gov, phone });
+                    this.alert("تم التحديث", "بياناتك بقت في السليم يا موزة! 🍌", "success");
+                } catch(e) { this.alert("خطأ", "فشل التحديث", "error"); }
             },
 
             renderCourses: function() {
@@ -394,7 +436,6 @@
 
             renderStore: function(dbBooks) {
                 const bStore = document.getElementById('book-store'); bStore.innerHTML = '';
-                // كتب ثابتة
                 const baseBooks = [
                     { id: 'b1', name: 'مذكرة العضوية 🍌', price: 85 },
                     { id: 'b2', name: 'كتاب الأسئلة الشامل', price: 110 }
@@ -410,15 +451,10 @@
             },
 
             addToCart: function(id, type, name="", price=0) {
-                // منع تكرار الكورسات فقط، الكتب عادي
                 if (type === 'course' && ((this.user.owned || []).includes(id) || this.cart.find(i => i.id === id))) {
                     return this.alert("يا بطل!", "الكورس ده عندك فعلاً أو في السلة.", "warning");
                 }
-                
-                let item;
-                if(type === 'course') item = DATA.courses.find(c => c.id === id);
-                else item = {id, name, price, type: 'book'};
-
+                let item = type === 'course' ? DATA.courses.find(c => c.id === id) : {id, name, price, type: 'book'};
                 this.cart.push(item);
                 this.updateCartUI();
                 Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'رميت في السلة 🛒', showConfirmButton: false, timer: 1000 });
@@ -443,7 +479,6 @@
             confirmPurchase: function() {
                 const total = document.getElementById('cart-total').innerText;
                 let itemsList = this.cart.map(i => i.name).join(', ');
-                
                 Swal.fire({
                     title: 'تأكيد عملية الشراء؟',
                     text: `هيتم خصم ${total} ج من رصيدك مقابل: ${itemsList}`,
@@ -452,9 +487,7 @@
                     confirmButtonText: 'إخصم يا موزة ✅',
                     cancelButtonText: 'لأ استنى',
                     background: '#050508', color: '#fff'
-                }).then((result) => {
-                    if (result.isConfirmed) this.checkout();
-                });
+                }).then((result) => { if (result.isConfirmed) this.checkout(); });
             },
 
             checkout: async function() {
@@ -469,20 +502,11 @@
                 const updatedOwned = Array.from(new Set([...(this.user.owned || []), ...newlyOwned]));
 
                 try {
-                    await update(ref(db, 'users/' + this.user.phone), { 
-                        balance: newBalance, 
-                        owned: updatedOwned,
-                        totalSpent: newTotalSpent
-                    });
-                    
+                    await update(ref(db, 'users/' + this.user.phone), { balance: newBalance, owned: updatedOwned, totalSpent: newTotalSpent });
                     this.logActivity(this.user.phone, this.user.name, `اشترى حاجات بـ ${total} ج 🛍️`, "sub");
-                    
-                    // تأثير النجاح
                     confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-                    
                     const msg = `أنا الطالب: ${this.user.name}\nاشتريت حاجات بـ ${total} ج\nرصيدي المتبقي: ${newBalance} ج\nأرجو تفعيل المحتوى.`;
                     window.open(`https://wa.me/201159562785?text=${encodeURIComponent(msg)}`);
-
                     this.cart = []; this.updateCartUI();
                     this.alert("تم الشحن بنجاح!", "المحتوى اتفتح، اتفرج بقى يا بطل 🍌", "success");
                     this.isProcessing = false;
@@ -496,13 +520,10 @@
                     window.show('cart');
                     return this.alert("إقف عندك!", "اشترك في الكورس أولاً يا بطل عشان تشوف العظمة.", "warning");
                 }
-                
                 document.getElementById('current-course-title').innerText = name;
                 window.show('courseContent');
                 this.updateProgressUI(id);
-                
-                const cont = document.getElementById('lectures-container');
-                cont.innerHTML = '';
+                const cont = document.getElementById('lectures-container'); cont.innerHTML = '';
                 DATA.lectures.forEach(l => {
                     cont.innerHTML += `
                     <div class="lecture-box">
@@ -517,12 +538,10 @@
             },
 
             viewVideo: async function(vId, title, cId, lId) {
-                // تسجيل المشاهدة والتقدم
                 const progressKey = `progress/${cId}/${lId}`;
                 await update(ref(db, 'users/' + this.user.phone), { [progressKey]: true });
                 this.logActivity(this.user.phone, this.user.name, `شاهد فيديو: ${title} 📺`, "view");
                 this.updateProgressUI(cId);
-
                 Swal.fire({ 
                     html: `<div style="position:relative;padding-bottom:56.25%;height:0;"><iframe src="https://www.youtube.com/embed/${vId}" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allowfullscreen></iframe></div>`,
                     showConfirmButton: false, background: '#000', width: '95%' 
@@ -531,15 +550,11 @@
 
             updateProgressUI: function(cId) {
                 const userProgress = this.user.progress?.[cId] || {};
-                const watchedCount = Object.keys(userProgress).length;
-                const total = DATA.lectures.length;
-                const percent = (watchedCount / total) * 100;
+                const percent = (Object.keys(userProgress).length / DATA.lectures.length) * 100;
                 document.getElementById('course-progress-bar').style.width = percent + '%';
             },
 
-            viewPDF: function() {
-                this.alert("تحذير ⚠️", "ممنوع تصوير الملازم أو نشرها.. مستر موزة بيشوفك! 🍌", "info");
-            },
+            viewPDF: function() { this.alert("تحذير ⚠️", "ممنوع تصوير الملازم أو نشرها.. مستر موزة بيشوفك! 🍌", "info"); },
 
             logActivity: function(phone, name, action, type) {
                 const logData = { name, phone, action, type, date: new Date().toLocaleString('ar-EG') };
@@ -547,7 +562,26 @@
                 push(ref(db, 'global_logs'), logData);
             },
 
-            // وظائف الأدمن
+            clearUserLogs: async function(phone) {
+                Swal.fire({
+                    title: 'مسح السجل؟',
+                    text: "هل أنت متأكد من حذف تاريخ نشاطاتك؟",
+                    icon: 'warning',
+                    showCancelButton: true
+                }).then(async (r) => {
+                    if(r.isConfirmed) {
+                        await remove(ref(db, 'logs/' + phone));
+                        this.alert("تم الحذف", "سجلك بقى فلة يا موزة.", "success");
+                    }
+                });
+            },
+
+            adminClearUserLogsFromAdmin: function() {
+                const phone = document.getElementById('adm-del-phone').value;
+                if(!phone) return this.alert("خطأ", "اكتب الرقم!", "error");
+                this.clearUserLogs(phone);
+            },
+
             adminAddBook: async function() {
                 const name = document.getElementById('new-book-name').value;
                 const price = document.getElementById('new-book-price').value;
@@ -561,7 +595,6 @@
                 const amount = parseInt(document.getElementById('adm-amount').value);
                 const snap = await get(ref(db, 'users/' + phone));
                 if(!snap.exists()) return this.alert("خطأ", "مين ده؟ الطالب مش عندي!", "error");
-                
                 let newBal = (mode === 'add') ? (snap.val().balance + amount) : (snap.val().balance - amount);
                 await update(ref(db, 'users/' + phone), { balance: Math.max(0, newBal) });
                 this.logActivity(phone, snap.val().name, `${mode === 'add' ? 'إضافة' : 'سحب'} ${amount} ج من الإدارة 👑`, mode);
@@ -569,19 +602,11 @@
             },
 
             adminRefund: async function(phone, logKey, amount) {
-                Swal.fire({
-                    title: 'هل تريد إرجاع المنتج؟',
-                    text: "سيتم سحب الوصول ورجوع الفلوس للمحفظة.",
-                    icon: 'warning',
-                    showCancelButton: true
-                }).then(async (r) => {
+                Swal.fire({ title: 'هل تريد إرجاع المنتج؟', text: "سيتم سحب الوصول ورجوع الفلوس للمحفظة.", icon: 'warning', showCancelButton: true }).then(async (r) => {
                     if(r.isConfirmed) {
                         const snap = await get(ref(db, 'users/' + phone));
                         const u = snap.val();
-                        await update(ref(db, 'users/' + phone), { 
-                            balance: u.balance + parseInt(amount),
-                            owned: u.owned.slice(0, -1) // حذف آخر كورس تم شراؤه كمثال
-                        });
+                        await update(ref(db, 'users/' + phone), { balance: u.balance + parseInt(amount), owned: u.owned.slice(0, -1) });
                         this.logActivity(phone, u.name, `مرتجع بقيمة ${amount} ج 💰`, "add");
                         this.alert("تم الارتجاع", "الفلوس رجعت للطالب يا طيب.", "success");
                     }
@@ -590,16 +615,12 @@
 
             updateAdminStats: function() {
                 onValue(ref(db, 'users'), s => {
-                    const users = s.val() || {};
-                    const uList = Object.values(users);
+                    const uList = Object.values(s.val() || {});
                     document.getElementById('stat-students').innerText = uList.length;
-                    let totalIncome = 0;
-                    uList.forEach(u => totalIncome += (u.totalSpent || 0));
-                    document.getElementById('stat-income').innerText = totalIncome + " ج";
+                    let income = 0; uList.forEach(u => income += (u.totalSpent || 0));
+                    document.getElementById('stat-income').innerText = income + " ج";
                 });
-                onValue(ref(db, 'store_books'), s => {
-                    document.getElementById('stat-books').innerText = Object.keys(s.val() || {}).length + 5;
-                });
+                onValue(ref(db, 'store_books'), s => { document.getElementById('stat-books').innerText = Object.keys(s.val() || {}).length + 2; });
             },
 
             renderAdminLogs: function(data) {
@@ -626,14 +647,17 @@
                     </div>`).join('');
             },
 
+            adminClearAllLogs: async function() {
+                Swal.fire({ title: 'تنبيه خطير!', text: "سيتم حذف السجل العام بالكامل نهائياً!", icon: 'error', showCancelButton: true }).then(async (r) => {
+                    if(r.isConfirmed) { await remove(ref(db, 'global_logs')); this.alert("تم", "السجل العام اختفى.", "success"); }
+                });
+            },
+
             confirmLogout: function() {
                 Swal.fire({
                     title: 'عايز تسيبني يا موزة؟',
                     text: "دانا اديتك أكبر عضو فيا.. ظوفري! متخرجش يا بطل.",
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonText: 'هخرج خلاص',
-                    cancelButtonText: 'قاعد لعيونك'
+                    icon: 'question', showCancelButton: true, confirmButtonText: 'هخرج خلاص', cancelButtonText: 'قاعد لعيونك'
                 }).then((r) => { if(r.isConfirmed) this.logout(); });
             },
 
