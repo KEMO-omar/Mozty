@@ -54,24 +54,13 @@
 
         .section-title { font-family: 'Orbitron'; font-size: 18px; color: var(--p); margin: 25px 0 15px; display: flex; align-items: center; gap: 10px; }
 
-        /* تعديل شريط التنقل ليحتوي على أيقونات التواصل الاجتماعي */
         nav { 
             position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); 
             background: rgba(10, 10, 15, 0.95); border: 1px solid var(--p); border-radius: 40px; 
-            padding: 10px 20px; display: flex; gap: 15px; z-index: 1000;
-            box-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
+            padding: 10px 25px; display: flex; gap: 25px; z-index: 1000;
         }
-        nav a { text-decoration: none; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
-        nav i { font-size: 24px; color: #fff; cursor: pointer; transition: 0.3s; }
-        
-        /* ألوان أيقونات التواصل */
-        .fa-facebook { color: #1877F2; }
-        .fa-whatsapp { color: #25D366; }
-        .fa-instagram { color: #E4405F; }
-        .fa-globe { color: var(--p); }
-        .fa-tiktok { color: #fff; }
-
-        nav a:hover { transform: scale(1.2); filter: drop-shadow(0 0 8px currentColor); }
+        nav i { font-size: 22px; color: #fff; cursor: pointer; transition: 0.3s; }
+        nav i.active-nav { color: var(--p); text-shadow: 0 0 10px var(--p); }
 
         .log-item { font-size: 12px; border-bottom: 1px solid #333; padding: 8px 0; display: flex; justify-content: space-between; }
         .log-add { color: var(--success); }
@@ -89,7 +78,17 @@
         .banana-emoji { position: fixed; top: -50px; z-index: 9999; font-size: 24px; animation: fall linear forwards; pointer-events: none; }
         @keyframes fall { to { transform: translateY(105vh) rotate(360deg); } }
 
-        .rights-box { text-align: center; font-size: 10px; opacity: 0.5; font-family: 'Orbitron'; padding: 10px; color: var(--p); width: 100%; }
+        /* تصميم أيقونات التواصل الاجتماعي تحت الحقوق */
+        .social-container { display: flex; justify-content: center; gap: 15px; margin-top: 10px; padding-bottom: 20px; }
+        .social-container a { text-decoration: none; font-size: 20px; transition: 0.3s; }
+        .fa-facebook { color: #1877F2; }
+        .fa-whatsapp { color: #25D366; }
+        .fa-instagram { color: #E4405F; }
+        .fa-globe { color: var(--p); }
+        .fa-tiktok { color: #fff; }
+        .social-container a:hover { transform: scale(1.2); filter: drop-shadow(0 0 5px currentColor); }
+
+        .rights-box { text-align: center; font-size: 10px; opacity: 0.5; font-family: 'Orbitron'; padding: 10px 10px 0; color: var(--p); width: 100%; }
         .admin-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
         .stat-card { background: var(--card); padding: 10px; border-radius: 15px; text-align: center; border: 1px solid var(--border); }
         .stat-card b { color: var(--a); display: block; font-size: 16px; }
@@ -112,6 +111,13 @@
                 <button class="neo-btn" style="margin-top:10px; background:none; border:1px solid var(--p); color:var(--p)" onclick="show('login')">تسجيل دخول</button>
             </div>
             <div class="rights-box">ALL RIGHTS RESERVED TO KAREEM OMAR</div>
+            <div class="social-container">
+                <a href="https://www.facebook.com/kareem.omar.7547" target="_blank"><i class="fab fa-facebook"></i></a>
+                <a href="https://wa.me/201159562785" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://www.instagram.com/kareemomar17" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://kemo-omar.github.io/Kareem/" target="_blank"><i class="fas fa-globe"></i></a>
+                <a href="https://www.tiktok.com/" target="_blank"><i class="fab fa-tiktok"></i></a>
+            </div>
         </div>
     </div>
 
@@ -126,6 +132,13 @@
             <button class="neo-btn" onclick="app.signup()">تجهيز الحساب 🚀</button>
         </div>
         <div class="rights-box">ALL RIGHTS RESERVED TO KAREEM OMAR</div>
+        <div class="social-container">
+            <a href="https://www.facebook.com/kareem.omar.7547" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://wa.me/201159562785" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://www.instagram.com/kareemomar17" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://kemo-omar.github.io/Kareem/" target="_blank"><i class="fas fa-globe"></i></a>
+            <a href="https://www.tiktok.com/" target="_blank"><i class="fab fa-tiktok"></i></a>
+        </div>
     </div>
 
     <div id="loginPage" class="page">
@@ -136,6 +149,13 @@
             <button class="neo-btn" onclick="app.login()">دخول الآن 🍌</button>
         </div>
         <div class="rights-box">ALL RIGHTS RESERVED TO KAREEM OMAR</div>
+        <div class="social-container">
+            <a href="https://www.facebook.com/kareem.omar.7547" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://wa.me/201159562785" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://www.instagram.com/kareemomar17" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://kemo-omar.github.io/Kareem/" target="_blank"><i class="fas fa-globe"></i></a>
+            <a href="https://www.tiktok.com/" target="_blank"><i class="fab fa-tiktok"></i></a>
+        </div>
     </div>
 
     <div id="dashPage" class="page">
@@ -164,6 +184,13 @@
         </div>
         <button class="neo-btn btn-danger" style="padding: 5px; font-size: 12px;" onclick="app.clearUserLogs(app.user.phone)">حذف السجل الخاص بي</button>
         <div class="rights-box">ALL RIGHTS RESERVED TO KAREEM OMAR</div>
+        <div class="social-container">
+            <a href="https://www.facebook.com/kareem.omar.7547" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://wa.me/201159562785" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://www.instagram.com/kareemomar17" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://kemo-omar.github.io/Kareem/" target="_blank"><i class="fas fa-globe"></i></a>
+            <a href="https://www.tiktok.com/" target="_blank"><i class="fab fa-tiktok"></i></a>
+        </div>
     </div>
 
     <div id="courseContentPage" class="page">
@@ -177,6 +204,13 @@
         </div>
         <div id="lectures-container"></div>
         <div class="rights-box">ALL RIGHTS RESERVED TO KAREEM OMAR</div>
+        <div class="social-container">
+            <a href="https://www.facebook.com/kareem.omar.7547" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://wa.me/201159562785" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://www.instagram.com/kareemomar17" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://kemo-omar.github.io/Kareem/" target="_blank"><i class="fas fa-globe"></i></a>
+            <a href="https://www.tiktok.com/" target="_blank"><i class="fab fa-tiktok"></i></a>
+        </div>
     </div>
 
     <div id="vaultPage" class="page">
@@ -199,6 +233,13 @@
             <button class="neo-btn" onclick="app.contactForCharge()">اتصل بمستر موزة للشحن ⚡</button>
         </div>
         <div class="rights-box">ALL RIGHTS RESERVED TO KAREEM OMAR</div>
+        <div class="social-container">
+            <a href="https://www.facebook.com/kareem.omar.7547" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://wa.me/201159562785" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://www.instagram.com/kareemomar17" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://kemo-omar.github.io/Kareem/" target="_blank"><i class="fas fa-globe"></i></a>
+            <a href="https://www.tiktok.com/" target="_blank"><i class="fab fa-tiktok"></i></a>
+        </div>
     </div>
 
     <div id="cartPage" class="page">
@@ -212,6 +253,13 @@
             <button class="neo-btn" onclick="app.confirmPurchase()">إتمام عملية الشراء 🍌</button>
         </div>
         <div class="rights-box">ALL RIGHTS RESERVED TO KAREEM OMAR</div>
+        <div class="social-container">
+            <a href="https://www.facebook.com/kareem.omar.7547" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://wa.me/201159562785" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://www.instagram.com/kareemomar17" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://kemo-omar.github.io/Kareem/" target="_blank"><i class="fas fa-globe"></i></a>
+            <a href="https://www.tiktok.com/" target="_blank"><i class="fab fa-tiktok"></i></a>
+        </div>
     </div>
 
     <div id="adminPage" class="page">
@@ -250,21 +298,21 @@
         <div class="glass" style="max-height: 400px; overflow-y: auto;" id="admin-global-logs"></div>
         <button class="neo-btn btn-danger" onclick="app.adminClearAllLogs()">حذف السجل العام نهائياً</button>
         <div class="rights-box">ALL RIGHTS RESERVED TO KAREEM OMAR</div>
+        <div class="social-container">
+            <a href="https://www.facebook.com/kareem.omar.7547" target="_blank"><i class="fab fa-facebook"></i></a>
+            <a href="https://wa.me/201159562785" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://www.instagram.com/kareemomar17" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://kemo-omar.github.io/Kareem/" target="_blank"><i class="fas fa-globe"></i></a>
+            <a href="https://www.tiktok.com/" target="_blank"><i class="fab fa-tiktok"></i></a>
+        </div>
     </div>
 
     <nav id="navbar" style="display:none">
-        <a href="https://www.facebook.com/kareem.omar.7547" target="_blank" title="فيس بوك"><i class="fab fa-facebook"></i></a>
-        <a href="https://wa.me/201159562785" target="_blank" title="واتساب"><i class="fab fa-whatsapp"></i></a>
-        <a href="https://www.instagram.com/kareemomar17" target="_blank" title="انستجرام"><i class="fab fa-instagram"></i></a>
-        <a href="https://kemo-omar.github.io/Kareem/" target="_blank" title="الموقع الشخصي"><i class="fas fa-globe"></i></a>
-        <a href="https://www.tiktok.com/" target="_blank" title="تيك توك"><i class="fab fa-tiktok"></i></a>
-        
-        <div style="width: 2px; background: rgba(255,255,255,0.1); height: 24px; margin: 0 5px;"></div>
-        <i class="fas fa-home" id="nav-dash" onclick="show('dash')" title="الرئيسية"></i>
-        <i class="fas fa-shopping-basket" id="nav-cart" onclick="show('cart')" title="السلة"></i>
-        <i class="fas fa-user-cog" id="nav-vault" onclick="show('vault')" title="الحساب"></i>
-        <i class="fas fa-shield-alt" id="nav-admin" style="display:none" onclick="show('admin')" title="الإدارة"></i>
-        <i class="fas fa-sign-out-alt" onclick="app.confirmLogout()" title="خروج"></i>
+        <i class="fas fa-home" id="nav-dash" onclick="show('dash')"></i>
+        <i class="fas fa-shopping-basket" id="nav-cart" onclick="show('cart')"></i>
+        <i class="fas fa-user-cog" id="nav-vault" onclick="show('vault')"></i>
+        <i class="fas fa-shield-alt" id="nav-admin" style="display:none" onclick="show('admin')"></i>
+        <i class="fas fa-sign-out-alt" onclick="app.confirmLogout()"></i>
     </nav>
 
     <script type="module">
