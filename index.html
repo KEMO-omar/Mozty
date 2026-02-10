@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>منصة موزتي 2026</title>
+    <title>منصة موزتي 2026 - الاحترافية الكاملة</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Orbitron:wght@800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -45,7 +45,8 @@
             cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;
         }
         .neo-btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,242,255,0.4); }
-        .btn-danger { background: var(--danger); }
+        .btn-danger { background: var(--danger) !important; }
+        .btn-success { background: var(--success) !important; color: #000 !important; }
         
         input, select { 
             width: 100%; padding: 14px; background: rgba(0,0,0,0.6); border: 1px solid var(--border); 
@@ -62,109 +63,73 @@
         nav i { font-size: 22px; color: #fff; cursor: pointer; transition: 0.3s; }
         nav i.active-nav { color: var(--p); text-shadow: 0 0 10px var(--p); }
 
-        .log-item { font-size: 12px; border-bottom: 1px solid #333; padding: 8px 0; display: flex; justify-content: space-between; }
-        .log-add { color: var(--success); }
-        .log-sub { color: var(--danger); }
-        .log-view { color: var(--p); }
+        .log-item { font-size: 11px; border-bottom: 1px solid #333; padding: 10px 0; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+        .log-info-box { flex: 1; }
+        .log-name { color: var(--p); font-weight: bold; font-size: 12px; display: block; margin-bottom: 2px; }
 
-        .lecture-box { background: rgba(255,255,255,0.05); margin-bottom: 15px; border-radius: 15px; padding: 20px; border-left: 4px solid var(--p); }
-        .lecture-btns { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .lec-btn { background: #111; border: 1px solid #333; color: #fff; padding: 10px; border-radius: 10px; font-size: 11px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; }
-        .lec-btn i { font-size: 18px; color: var(--p); }
+        .social-container { display: flex; justify-content: center; gap: 15px; margin-top: 20px; padding: 10px; border-top: 1px solid var(--border); }
+        .social-container a { text-decoration: none; font-size: 22px; transition: 0.3s; }
+        .fa-facebook { color: #1877F2; } .fa-whatsapp { color: #25D366; } .fa-instagram { color: #E4405F; } .fa-globe { color: var(--p); } .fa-tiktok { color: #fff; }
 
-        .progress-container { width: 100%; height: 10px; background: #222; border-radius: 5px; margin: 10px 0; overflow: hidden; }
-        .progress-bar { height: 100%; background: var(--grad); width: 0%; transition: 0.5s; }
+        .rights-box { text-align: center; font-size: 10px; opacity: 0.5; font-family: 'Orbitron'; padding: 10px 0; color: var(--p); }
 
-        .banana-emoji { position: fixed; top: -50px; z-index: 9999; font-size: 24px; animation: fall linear forwards; pointer-events: none; }
-        @keyframes fall { to { transform: translateY(105vh) rotate(360deg); } }
+        .admin-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .stat-card { background: var(--card); padding: 15px; border-radius: 15px; text-align: center; border: 1px solid var(--border); }
+        .stat-card b { color: var(--a); display: block; font-size: 18px; }
 
-        /* تصميم أيقونات التواصل الاجتماعي تحت الحقوق */
-        .social-container { display: flex; justify-content: center; gap: 15px; margin-top: 10px; padding-bottom: 20px; }
-        .social-container a { text-decoration: none; font-size: 20px; transition: 0.3s; }
-        .fa-facebook { color: #1877F2; }
-        .fa-whatsapp { color: #25D366; }
-        .fa-instagram { color: #E4405F; }
-        .fa-globe { color: var(--p); }
-        .fa-tiktok { color: #fff; }
-        .social-container a:hover { transform: scale(1.2); filter: drop-shadow(0 0 5px currentColor); }
-
-        .rights-box { text-align: center; font-size: 10px; opacity: 0.5; font-family: 'Orbitron'; padding: 10px 10px 0; color: var(--p); width: 100%; }
-        .admin-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .stat-card { background: var(--card); padding: 10px; border-radius: 15px; text-align: center; border: 1px solid var(--border); }
-        .stat-card b { color: var(--a); display: block; font-size: 16px; }
+        .banana-emoji { position: fixed; font-size: 24px; pointer-events: none; z-index: 9999; }
     </style>
 </head>
 <body>
 
     <div id="loader" style="position:fixed; inset:0; background:var(--bg); z-index:10000; display:flex; flex-direction:column; align-items:center; justify-content:center;">
         <div class="logo-m">K</div>
-        <p class="animate__animated animate__pulse animate__infinite" style="color:var(--p)">جاري تحضير الموز العملاق... 🍌</p>
+        <p class="animate__animated animate__pulse animate__infinite" style="color:var(--p)">جاري تجهيز السُباطة... 🍌</p>
     </div>
 
     <div id="indexPage" class="page">
         <div style="text-align: center; margin-top: 8vh;">
             <div class="logo-m">M</div>
-            <h1 style="font-family:'Orbitron'; font-size: 35px; margin:0;">MOZTY <span style="color:var(--p)">2026</span> 🍌</h1>
-            <p style="opacity: 0.6;">Kemo</p>
+            <h1 style="font-family:'Orbitron'; font-size: 35px; margin:0;">MOZTY <span style="color:var(--p)">2026</span></h1>
             <div id="startButtons" class="glass" style="margin-top: 40px;">
                 <button class="neo-btn" onclick="show('signup')">موزة جديدة 🍌</button>
-                <button class="neo-btn" style="margin-top:10px; background:none; border:1px solid var(--p); color:var(--p)" onclick="show('login')">تسجيل دخول</button>
+                <button class="neo-btn" style="margin-top:10px; background:none; border:1px solid var(--p); color:var(--p)" onclick="show('login')">دخول البطل</button>
             </div>
-            <div class="rights-box">ALL RIGHTS RESERVED TO KAREEM OMAR</div>
-            <div class="social-container">
-                <a href="https://www.facebook.com/profile.php?id=61585345501431&rdid=7ASYoxIuMwc5Laay&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1DQMkA2biL%2F#" target="_blank"><i class="fab fa-facebook"></i></a>
-                <a href="https://wa.me/201159562785" target="_blank"><i class="fab fa-whatsapp"></i></a>
-                <a href="https://www.instagram.com/kareemomar1511?igsh=MWRrc2VmNHI2d3ZicQ%3D%3D" target="_blank"><i class="fab fa-instagram"></i></a>
-                <a href="https://kemo-omar.github.io/Kareem/" target="_blank"><i class="fas fa-globe"></i></a>
-                <a href="https://www.tiktok.com/@kareem_omar15" target="_blank"><i class="fab fa-tiktok"></i></a>
-            </div>
+            <div class="social-links-all"></div>
         </div>
     </div>
 
     <div id="signupPage" class="page">
         <div class="glass">
-            <h2 class="section-title">انضم للسباطه 🍌</h2>
-            <input type="text" id="regName" placeholder="الاسم الكامل (ثلاثي على الأقل)">
+            <h2 class="section-title">انضم للموزة 🍌</h2>
+            <input type="text" id="regName" placeholder="الاسم الكامل (ثلاثي)">
             <input type="tel" id="regPhone" placeholder="رقم الموبايل">
             <input type="tel" id="rekowmy" placeholder="الرقم القومي (14 رقم)">
-            <input type="password" id="regPass" placeholder="كلمة السر (6 أرقام على الأقل)">
+            <input type="password" id="regPass" placeholder="كلمة السر">
             <select id="regGov"></select>
-            <button class="neo-btn" onclick="app.signup()">تجهيز الحساب 🚀</button>
+            <button class="neo-btn" onclick="app.signup()">إنشاء الحساب 🚀</button>
+            <button class="neo-btn" style="margin-top:10px; background:none; border:1px solid var(--p); color:var(--p)" onclick="show('index')">رجوع</button>
         </div>
-        <div class="rights-box">ALL RIGHTS RESERVED TO KAREEM OMAR</div>
-        <div class="social-container">
-            <a href="https://www.facebook.com/profile.php?id=61585345501431&rdid=7ASYoxIuMwc5Laay&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1DQMkA2biL%2F#" target="_blank"><i class="fab fa-facebook"></i></a>
-            <a href="https://wa.me/201159562785" target="_blank"><i class="fab fa-whatsapp"></i></a>
-            <a href="https://www.instagram.com/kareemomar1511?igsh=MWRrc2VmNHI2d3ZicQ%3D%3D" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="https://kemo-omar.github.io/Kareem/" target="_blank"><i class="fas fa-globe"></i></a>
-            <a href="https://www.tiktok.com/@kareem_omar15" target="_blank"><i class="fab fa-tiktok"></i></a>
-        </div>
+        <div class="social-links-all"></div>
     </div>
 
     <div id="loginPage" class="page">
         <div class="glass" style="margin-top: 50px;">
-            <h2 class="section-title">عودة البطل</h2>
+            <h2 class="section-title">اشتقنا لك!</h2>
             <input type="tel" id="loginPhone" placeholder="رقم الموبايل">
             <input type="password" id="loginPass" placeholder="كلمة السر">
-            <button class="neo-btn" onclick="app.login()">دخول الآن 🍌</button>
+            <button class="neo-btn" onclick="app.login()">دخول الآن</button>
+            <button class="neo-btn" style="margin-top:10px; background:none; border:1px solid var(--p); color:var(--p)" onclick="show('index')">رجوع</button>
         </div>
-        <div class="rights-box">ALL RIGHTS RESERVED TO KAREEM OMAR</div>
-        <div class="social-container">
-            <a href="https://www.facebook.com/profile.php?id=61585345501431&rdid=7ASYoxIuMwc5Laay&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1DQMkA2biL%2F#" target="_blank"><i class="fab fa-facebook"></i></a>
-            <a href="https://wa.me/201159562785" target="_blank"><i class="fab fa-whatsapp"></i></a>
-            <a href="https://www.instagram.com/kareemomar1511?igsh=MWRrc2VmNHI2d3ZicQ%3D%3D" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="https://kemo-omar.github.io/Kareem/" target="_blank"><i class="fas fa-globe"></i></a>
-            <a href="https://www.tiktok.com/@kareem_omar15" target="_blank"><i class="fab fa-tiktok"></i></a>
-        </div>
+        <div class="social-links-all"></div>
     </div>
 
     <div id="dashPage" class="page">
         <div class="glass" style="display:flex; justify-content:space-between; align-items:center;">
             <div>
                 <h3 id="u-name" style="margin:0">..</h3>
-                <small id="u-location" style="color:var(--p)"></small><br>
-                <small id="u-id-display" style="color:#fff; opacity:0.8; font-weight:bold;"></small>
-                <div style="margin-top:5px; font-size:12px">الرتبة: <span id="u-rank" style="color:var(--a)">برونزية 🍌</span></div>
+                <small id="u-phone" style="color:var(--p); display:block; margin:2px 0; font-weight:bold;"></small>
+                <small id="u-location" style="opacity:0.8"></small>
             </div>
             <div style="text-align:left">
                 <small>رصيدك</small>
@@ -172,147 +137,80 @@
             </div>
         </div>
 
-        <h2 class="section-title">🎬 الكورسات المتاحة 🍌</h2>
+        <h2 class="section-title">🎬 كورساتك ومحاضراتك</h2>
         <div id="course-list"></div>
 
-        <h2 class="section-title">📚 متجر الكتب</h2>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;" id="book-store"></div>
-
-        <h2 class="section-title">📜 سجل نشاطاتك</h2>
-        <div class="glass" style="max-height: 200px; overflow-y: auto;" id="user-logs">
-            <p style="text-align:center; opacity:0.5">لا يوجد عمليات بعد</p>
-        </div>
-        <button class="neo-btn btn-danger" style="padding: 5px; font-size: 12px;" onclick="app.clearUserLogs(app.user.phone)">حذف السجل الخاص بي</button>
-        <div class="rights-box">ALL RIGHTS RESERVED TO KAREEM OMAR</div>
-        <div class="social-container">
-            <a href="https://www.facebook.com/profile.php?id=61585345501431&rdid=7ASYoxIuMwc5Laay&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1DQMkA2biL%2F#" target="_blank"><i class="fab fa-facebook"></i></a>
-            <a href="https://wa.me/201159562785" target="_blank"><i class="fab fa-whatsapp"></i></a>
-            <a href="https://www.instagram.com/kareemomar1511?igsh=MWRrc2VmNHI2d3ZicQ%3D%3D" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="https://kemo-omar.github.io/Kareem/" target="_blank"><i class="fas fa-globe"></i></a>
-            <a href="https://www.tiktok.com/@kareem_omar15" target="_blank"><i class="fab fa-tiktok"></i></a>
-        </div>
+        <h2 class="section-title">📜 سجل نشاطاتك (مشتريات/شحن)</h2>
+        <div class="glass" id="user-logs" style="max-height: 200px; overflow-y: auto; font-size: 12px;"></div>
+        
+        <div class="social-links-all"></div>
     </div>
 
-    <div id="courseContentPage" class="page">
-        <div style="display:flex; align-items:center; gap:15px; margin-bottom:20px">
-            <i class="fas fa-arrow-right" onclick="show('dash')" style="cursor:pointer; color:var(--p); font-size: 20px;"></i>
-            <h2 id="current-course-title" style="margin:0">المحاضرات 🍌</h2>
-        </div>
+    <div id="editPage" class="page">
+        <h2 class="section-title">⚙️ تعديل بياناتي</h2>
         <div class="glass">
-            <small>نسبة الإنجاز في الكورس:</small>
-            <div class="progress-container"><div id="course-progress-bar" class="progress-bar"></div></div>
+            <label>الاسم:</label><input type="text" id="editName">
+            <label>المحافظة:</label><select id="editGov"></select>
+            <label>الرقم القومي:</label><input type="tel" id="editKowmy">
+            <label>كلمة السر الجديدة:</label><input type="password" id="editPass" placeholder="اتركها فارغة إذا لا تريد التغيير">
+            <button class="neo-btn btn-success" onclick="app.updateUserData()">حفظ التعديلات</button>
         </div>
-        <div id="lectures-container"></div>
-        <div class="rights-box">ALL RIGHTS RESERVED TO KAREEM OMAR</div>
-        <div class="social-container">
-            <a href="https://www.facebook.com/profile.php?id=61585345501431&rdid=7ASYoxIuMwc5Laay&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1DQMkA2biL%2F#" target="_blank"><i class="fab fa-facebook"></i></a>
-            <a href="https://wa.me/201159562785" target="_blank"><i class="fab fa-whatsapp"></i></a>
-            <a href="https://www.instagram.com/kareemomar1511?igsh=MWRrc2VmNHI2d3ZicQ%3D%3D" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="https://kemo-omar.github.io/Kareem/" target="_blank"><i class="fas fa-globe"></i></a>
-            <a href="https://www.tiktok.com/@kareem_omar15" target="_blank"><i class="fab fa-tiktok"></i></a>
-        </div>
+        <div class="social-links-all"></div>
     </div>
 
-    <div id="vaultPage" class="page">
-        <h2 class="section-title">⚙️ حسابك الشخصي</h2>
-        <div class="glass">
-            <label>الاسم الثلاثي:</label>
-            <input type="text" id="editName">
-            <label>رقم الموبايل:</label>
-            <input type="tel" id="editPhone">
-            <label>الرقم القومي:</label>
-            <input type="tel" id="editKowmy">
-            <label>كلمة السر:</label>
-            <input type="text" id="editPass">
-            <label>المحافظة:</label>
-            <select id="editGov"></select>
-            <button class="neo-btn" style="background:var(--success)" onclick="app.updateProfile()">تحديث البيانات</button>
-        </div>
-        <div class="glass" style="text-align:center">
-            <p>لشحن المحفظة</p>
-            <button class="neo-btn" onclick="app.contactForCharge()">اتصل بمستر موزة للشحن ⚡</button>
-        </div>
-        <div class="rights-box">ALL RIGHTS RESERVED TO KAREEM OMAR</div>
-        <div class="social-container">
-            <a href="https://www.facebook.com/profile.php?id=61585345501431&rdid=7ASYoxIuMwc5Laay&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1DQMkA2biL%2F#" target="_blank"><i class="fab fa-facebook"></i></a>
-            <a href="https://wa.me/201159562785" target="_blank"><i class="fab fa-whatsapp"></i></a>
-            <a href="https://www.instagram.com/kareemomar1511?igsh=MWRrc2VmNHI2d3ZicQ%3D%3D" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="https://kemo-omar.github.io/Kareem/" target="_blank"><i class="fas fa-globe"></i></a>
-            <a href="https://www.tiktok.com/@kareem_omar15" target="_blank"><i class="fab fa-tiktok"></i></a>
-        </div>
-    </div>
-
-    <div id="cartPage" class="page">
-        <h2 class="section-title">🛒 سلة الموز</h2>
-        <div id="cart-items"></div>
-        <div id="cart-total-box" style="display:none" class="glass">
-            <div style="display:flex; justify-content:space-between; margin-bottom:15px; font-size:20px">
-                <span>الإجمالي:</span>
-                <span id="cart-total" style="color:var(--a)">0</span>
-            </div>
-            <button class="neo-btn" onclick="app.confirmPurchase()">إتمام عملية الشراء 🍌</button>
-        </div>
-        <div class="rights-box">ALL RIGHTS RESERVED TO KAREEM OMAR</div>
-        <div class="social-container">
-            <a href="https://www.facebook.com/profile.php?id=61585345501431&rdid=7ASYoxIuMwc5Laay&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1DQMkA2biL%2F#" target="_blank"><i class="fab fa-facebook"></i></a>
-            <a href="https://wa.me/201159562785" target="_blank"><i class="fab fa-whatsapp"></i></a>
-            <a href="https://www.instagram.com/kareemomar1511?igsh=MWRrc2VmNHI2d3ZicQ%3D%3D" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="https://kemo-omar.github.io/Kareem/" target="_blank"><i class="fas fa-globe"></i></a>
-            <a href="https://www.tiktok.com/@kareem_omar15" target="_blank"><i class="fab fa-tiktok"></i></a>
-        </div>
+    <div id="shopPage" class="page">
+        <h2 class="section-title">📚 متجر الكتب والمذكرات</h2>
+        <div id="book-store" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;"></div>
+        <div class="social-links-all"></div>
     </div>
 
     <div id="adminPage" class="page">
-        <h2 class="section-title">👑 لوحة تحكم العمالقة</h2>
-        
+        <h2 class="section-title">👑 لوحة تحكم المستر</h2>
         <div class="admin-stats">
-            <div class="stat-card">الأرباح<b id="stat-income">0</b></div>
-            <div class="stat-card">الطلاب<b id="stat-students">0</b></div>
-            <div class="stat-card">الكتب<b id="stat-books">0</b></div>
+            <div class="stat-card">إجمالي الطلاب<b id="stat-students">0</b></div>
+            <div class="stat-card">إجمالي الأرباح<b id="stat-income">0</b></div>
         </div>
 
         <div class="glass">
-            <h3 style="color:var(--a)">إدارة أرصدة الموز 🍌</h3>
-            <input type="tel" id="adm-user-phone" placeholder="رقم هاتف الطالب">
+            <h3>💸 إدارة أرصدة الطلاب</h3>
+            <input type="tel" id="adm-phone" placeholder="رقم موبايل الطالب">
             <input type="number" id="adm-amount" placeholder="المبلغ">
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px">
-                <button class="neo-btn" style="background:var(--success)" onclick="app.adminModifyBalance('add')">إضافة رصيد</button>
-                <button class="neo-btn" style="background:var(--danger)" onclick="app.adminModifyBalance('sub')">سحب رصيد</button>
+            <div style="display: flex; gap: 10px;">
+                <button class="neo-btn btn-success" onclick="app.adminModifyBalance('add')">شحن رصيد</button>
+                <button class="neo-btn btn-danger" onclick="app.adminModifyBalance('sub')">سحب رصيد</button>
             </div>
         </div>
 
         <div class="glass">
-            <h3 style="color:var(--p)">إدارة الطالب بالكامل</h3>
-            <input type="tel" id="adm-del-phone" placeholder="رقم هاتف الطالب">
-            <button class="neo-btn btn-danger" onclick="app.adminClearUserLogsFromAdmin()">حذف سجل هذا الطالب</button>
+            <h3>🎬 إضافة كورس أو كتاب</h3>
+            <select id="add-type"><option value="courses">كورس فيديو</option><option value="books">كتاب (متجر)</option></select>
+            <input type="text" id="new-item-name" placeholder="الاسم">
+            <input type="number" id="new-item-price" placeholder="السعر">
+            <button class="neo-btn" onclick="app.adminAddItem()">إضافة الآن</button>
         </div>
 
         <div class="glass">
-            <h3 style="color:var(--p)">إضافة منتج جديد للمتجر</h3>
-            <input type="text" id="new-book-name" placeholder="اسم الكتاب">
-            <input type="number" id="new-book-price" placeholder="سعر الكتاب">
-            <button class="neo-btn" onclick="app.adminAddBook()">إضافة المنتج 📚</button>
+            <h3>📽️ إضافة فيديو يوتيوب لكورس</h3>
+            <select id="target-course-select"></select>
+            <input type="text" id="new-lec-title" placeholder="عنوان المحاضرة">
+            <input type="text" id="new-lec-ytid" placeholder="YouTube Video ID">
+            <button class="neo-btn" onclick="app.adminAddLecture()">إضافة المحاضرة</button>
         </div>
 
-        <h3 class="section-title">📊 سجل مراقبة السيستم</h3>
-        <div class="glass" style="max-height: 400px; overflow-y: auto;" id="admin-global-logs"></div>
-        <button class="neo-btn btn-danger" onclick="app.adminClearAllLogs()">حذف السجل العام نهائياً</button>
-        <div class="rights-box">ALL RIGHTS RESERVED TO KAREEM OMAR</div>
-        <div class="social-container">
-            <a href="https://www.facebook.com/profile.php?id=61585345501431&rdid=7ASYoxIuMwc5Laay&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1DQMkA2biL%2F#" target="_blank"><i class="fab fa-facebook"></i></a>
-            <a href="https://wa.me/201159562785" target="_blank"><i class="fab fa-whatsapp"></i></a>
-            <a href="https://www.instagram.com/kareemomar1511?igsh=MWRrc2VmNHI2d3ZicQ%3D%3D" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="https://kemo-omar.github.io/Kareem/" target="_blank"><i class="fas fa-globe"></i></a>
-            <a href="https://www.tiktok.com/@kareem_omar15" target="_blank"><i class="fab fa-tiktok"></i></a>
-        </div>
+        <h2 class="section-title">🕵️ سجل الرقابة الشامل</h2>
+        <div class="glass" id="admin-global-logs" style="max-height: 400px; overflow-y: auto; font-size: 11px; background: #000;"></div>
+
+        <h2 class="section-title">🗑️ حذف المحتوى</h2>
+        <div id="admin-delete-list"></div>
+        <div class="social-links-all"></div>
     </div>
 
     <nav id="navbar" style="display:none">
         <i class="fas fa-home" id="nav-dash" onclick="show('dash')"></i>
-        <i class="fas fa-shopping-basket" id="nav-cart" onclick="show('cart')"></i>
-        <i class="fas fa-user-cog" id="nav-vault" onclick="show('vault')"></i>
+        <i class="fas fa-book" id="nav-shop" onclick="show('shop')"></i>
+        <i class="fas fa-user-edit" id="nav-edit" onclick="show('edit')"></i>
         <i class="fas fa-shield-alt" id="nav-admin" style="display:none" onclick="show('admin')"></i>
-        <i class="fas fa-sign-out-alt" onclick="app.confirmLogout()"></i>
+        <i class="fas fa-sign-out-alt" onclick="app.logout()"></i>
     </nav>
 
     <script type="module">
@@ -333,419 +231,272 @@
         const db = getDatabase(fApp);
 
         const GOVS = ["القاهرة", "الجيزة", "الإسكندرية", "الدقهلية", "الشرقية", "الغربية", "المنوفية", "البحيرة", "القليوبية", "دمياط", "كفر الشيخ", "الفيوم", "بني سويف", "المنيا", "أسيوط", "سوهاج", "قنا", "الأقصر", "أسوان", "مرسى مطروح", "الوادي الجديد", "البحر الأحمر", "شمال سيناء", "جنوب سيناء", "بورسعيد", "السويس", "الإسماعيلية"];
-        
-        const DATA = {
-            courses: [
-                { id: 'c1', name: 'كورس العمالقة (التأسيس) 🍌', price: 450 },
-                { id: 'c2', name: 'كورس الموزة النووية (عضوية) 🍌', price: 550 },
-                { id: 'c3', name: 'مراجعة ليلة الحساب 🍌', price: 300 }
-            ],
-            lectures: [
-                { id: "l1", title: "الدحيح - اليقين", videoId: "SshM9L2p5Yg" },
-                { id: "l2", title: "الدحيح - لغة الحيوانات", videoId: "j_zBw7Vf3f0" },
-                { id: "l3", title: "الدحيح - الأرق", videoId: "W9r6p0XmE9k" },
-                { id: "l4", title: "الدحيح - الذكاء الاصطناعي", videoId: "2-Y_l0S6iMc" }
-            ]
-        };
 
         window.app = {
             user: null, 
-            cart: [],
-            isProcessing: false,
-            deviceID: localStorage.getItem('moza_deviceID') || (localStorage.setItem('moza_deviceID', 'dev-'+Math.random().toString(36).substr(2, 9)), localStorage.getItem('moza_deviceID')),
-
             init: function() {
+                this.renderSocial();
                 const selects = [document.getElementById('regGov'), document.getElementById('editGov')];
-                selects.forEach(s => GOVS.forEach(g => { let opt = document.createElement('option'); opt.value = opt.text = g; s.add(opt); }));
+                selects.forEach(s => GOVS.forEach(g => { let o = document.createElement('option'); o.value = o.text = g; s.add(o); }));
+                
+                const saved = localStorage.getItem('moza_user');
+                if(saved) this.autoLogin(saved);
+                else { document.getElementById('loader').style.display = 'none'; show('index'); }
+            },
 
-                const savedUser = localStorage.getItem('moza_user');
-                if (savedUser) {
-                    this.autoLogin(savedUser);
-                } else {
-                    document.getElementById('loader').style.display = 'none';
-                    window.show('index');
-                }
+            renderSocial: function() {
+                const html = `
+                    <div class="rights-box">ALL RIGHTS RESERVED TO KAREEM OMAR</div>
+                    <div class="social-container">
+                        <a href="https://www.facebook.com/profile.php?id=61585345501431" target="_blank"><i class="fab fa-facebook"></i></a>
+                        <a href="https://wa.me/201159562785" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://www.instagram.com/kareemomar1511" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://kemo-omar.github.io/Kareem/" target="_blank"><i class="fas fa-globe"></i></a>
+                        <a href="https://www.tiktok.com/@kareem_omar15" target="_blank"><i class="fab fa-tiktok"></i></a>
+                    </div>`;
+                document.querySelectorAll('.social-links-all').forEach(div => div.innerHTML = html);
             },
 
             autoLogin: async function(phone) {
-                try {
-                    const snap = await get(ref(db, 'users/' + phone));
-                    if (snap.exists()) {
-                        const userData = snap.val();
-                        if(userData.currentDevice && userData.currentDevice !== this.deviceID) {
-                            this.alert("أوباااا!", "الحساب مفتوح من جهاز تاني يا بطل! اخرج منه الأول.", "warning");
-                            localStorage.removeItem('moza_user');
-                            location.reload();
-                            return;
-                        }
-                        this.user = userData;
-                        this.startSession();
-                    } else { localStorage.removeItem('moza_user'); }
-                } catch(e) { console.error(e); }
+                const snap = await get(ref(db, 'users/' + phone));
+                if(snap.exists()) { this.user = snap.val(); this.startSession(); }
+                else { localStorage.removeItem('moza_user'); show('index'); }
                 document.getElementById('loader').style.display = 'none';
-                if(!this.user) window.show('index');
             },
 
             signup: async function() {
-                const phone = document.getElementById('regPhone').value;
-                const name = document.getElementById('regName').value.trim();
-                const pass = document.getElementById('regPass').value;
-                const kowmy = document.getElementById('rekowmy').value;
-
-                const nameParts = name.split(' ').filter(part => part.length > 0);
-                if(nameParts.length < 3) return this.alert("خطأ", "لازم تكتب اسمك الثلاثي يا بطل! 🍌", "error");
-
-                if(phone.length < 11 || pass.length < 6 || kowmy.length !== 14) 
-                    return this.alert("خطأ", "ظبط بياناتك يا وحش (الرقم القومي 14 رقم والسر 6)", "error");
-                
-                await set(ref(db, 'users/' + phone), {
-                    name, phone, pass, kowmy, balance: 0, totalSpent: 0, 
-                    owned: ["none"], progress: {}, currentDevice: this.deviceID,
-                    gov: document.getElementById('regGov').value,
-                    role: (phone === "01159562785") ? "admin" : "user"
-                });
-                this.logActivity(phone, name, "سجل في المنصة لأول مرة 🍌", "add");
-                this.alert("نورت يا بطل!", "تم التسجيل بنجاح! خش برِجلك اليمين.", "success");
-                window.show('login');
+                const n = document.getElementById('regName').value, p = document.getElementById('regPhone').value,
+                      k = document.getElementById('rekowmy').value, ps = document.getElementById('regPass').value, g = document.getElementById('regGov').value;
+                if(!n || n.split(' ').length < 2 || p.length < 11 || k.length !== 14) return this.alert("خطأ", "برجاء التأكد من صحة البيانات (الاسم، الهاتف، الرقم القومي)", "error");
+                await set(ref(db, 'users/' + p), { name: n, phone: p, kowmy: k, pass: ps, gov: g, balance: 0, owned: ["none"], totalSpent: 0, role: (p === "01159562785" ? "admin" : "user") });
+                this.logActivity(p, n, "انضم للمنصة لأول مرة 🍌");
+                this.alert("تم بنجاح", "أهلاً بك في عالم الموز! سجل دخولك الآن", "success"); show('login');
             },
 
             login: async function() {
-                const p = document.getElementById('loginPhone').value;
-                const pass = document.getElementById('loginPass').value;
+                const p = document.getElementById('loginPhone').value, ps = document.getElementById('loginPass').value;
                 const snap = await get(ref(db, 'users/' + p));
-                if(snap.exists() && snap.val().pass === pass) {
-                    await update(ref(db, 'users/' + p), { currentDevice: this.deviceID });
-                    this.user = snap.val();
-                    localStorage.setItem('moza_user', p);
-                    this.logActivity(p, this.user.name, "سجل دخوله الآن ✅", "add");
-                    this.bananaRain();
-                    this.startSession();
-                } else this.alert("خطأ", "بياناتك غلط يا صاحبي! ركز شوية.", "error");
+                if(snap.exists() && snap.val().pass === ps) {
+                    this.user = snap.val(); localStorage.setItem('moza_user', p);
+                    this.logActivity(p, this.user.name, "سجل دخوله للمنصة ✅");
+                    this.startSession(); this.bananaRain();
+                } else this.alert("خطأ", "رقم الهاتف أو كلمة السر غير صحيحة", "error");
             },
 
             startSession: function() {
-                window.show('dash');
-                document.getElementById('navbar').style.display = 'flex';
-                if(this.user.role === "admin") {
-                    document.getElementById('nav-admin').style.display = 'block';
-                    this.updateAdminStats();
-                }
+                show('dash'); document.getElementById('navbar').style.display = 'flex';
+                if(this.user.role === "admin") document.getElementById('nav-admin').style.display = 'block';
                 
-                onValue(ref(db, 'users/' + this.user.phone), (s) => {
-                    if(s.exists()) { 
-                        const oldBal = this.user.balance;
-                        this.user = s.val(); 
-                        if(this.user.balance > oldBal) {
-                            Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: `طااااخ! الأدمن شحنلك ${this.user.balance - oldBal} ج 🍌`, showConfirmButton: false, timer: 3000 });
-                        }
-                        this.syncUI(); 
-                    }
-                });
-
-                onValue(ref(db, 'store_books'), (s) => { this.renderStore(s.val()); });
-                if(this.user.role === "admin") onValue(ref(db, 'global_logs'), (s) => { this.renderAdminLogs(s.val()); });
-                onValue(ref(db, 'logs/' + this.user.phone), (s) => { this.renderUserLogs(s.val()); });
+                onValue(ref(db, 'users/' + this.user.phone), s => { if(s.exists()){ this.user = s.val(); this.syncUI(); }});
+                onValue(ref(db, 'content/courses'), s => this.renderCourses(s.val()));
+                onValue(ref(db, 'content/books'), s => this.renderBooks(s.val()));
+                onValue(ref(db, 'logs/' + this.user.phone), s => this.renderLogs('user-logs', s.val()));
+                
+                if(this.user.role === "admin") {
+                    onValue(ref(db, 'global_logs'), s => this.renderLogs('admin-global-logs', s.val(), true));
+                    this.updateAdminStats();
+                    this.renderAdminDelete();
+                }
             },
 
             syncUI: function() {
-                document.getElementById('u-name').innerText = this.user.name + " 🍌";
-                document.getElementById('u-location').innerText = "📍 " + this.user.gov;
-                document.getElementById('u-id-display').innerText = "🪪 " + this.user.kowmy;
+                document.getElementById('u-name').innerText = this.user.name;
+                document.getElementById('u-phone').innerText = "📱 " + this.user.phone;
                 document.getElementById('u-balance').innerText = this.user.balance;
-                
+                document.getElementById('u-location').innerText = "📍 " + this.user.gov;
                 document.getElementById('editName').value = this.user.name;
-                document.getElementById('editPhone').value = this.user.phone;
-                document.getElementById('editKowmy').value = this.user.kowmy;
-                document.getElementById('editPass').value = this.user.pass;
                 document.getElementById('editGov').value = this.user.gov;
-                
-                let rank = "موزة برونزية 🥉";
-                const spent = this.user.totalSpent || 0;
-                if(spent >= 2000) rank = "موزة VIP 💎";
-                else if(spent >= 1000) rank = "موزة ذهبية 🥇";
-                else if(spent >= 500) rank = "موزة فضية 🥈";
-                document.getElementById('u-rank').innerText = rank;
-
-                this.renderCourses();
+                document.getElementById('editKowmy').value = this.user.kowmy;
             },
 
-            updateProfile: async function() {
-                const name = document.getElementById('editName').value.trim();
-                const phone = document.getElementById('editPhone').value;
-                const kowmy = document.getElementById('editKowmy').value;
-                const pass = document.getElementById('editPass').value;
-                const gov = document.getElementById('editGov').value;
-
-                const nameParts = name.split(' ').filter(part => part.length > 0);
-                if(nameParts.length < 3) return this.alert("خطأ", "الاسم لازم يبقى ثلاثي يا بطل!", "error");
-                if(kowmy.length !== 14 || pass.length < 6) return this.alert("خطأ", "تأكد من الرقم القومي وكلمة السر", "error");
-
-                try {
-                    await update(ref(db, 'users/' + this.user.phone), { name, kowmy, pass, gov, phone });
-                    this.alert("تم التحديث", "بياناتك بقت في السليم يا موزة! 🍌", "success");
-                } catch(e) { this.alert("خطأ", "فشل التحديث", "error"); }
+            updateUserData: async function() {
+                const n = document.getElementById('editName').value, g = document.getElementById('editGov').value,
+                      k = document.getElementById('editKowmy').value, ps = document.getElementById('editPass').value;
+                let updates = { name: n, gov: g, kowmy: k };
+                if(ps) updates.pass = ps;
+                await update(ref(db, 'users/' + this.user.phone), updates);
+                this.logActivity(this.user.phone, n, "قام بتحديث بياناته الشخصية ⚙️");
+                this.alert("تم", "تم تحديث البيانات بنجاح", "success");
             },
 
-            renderCourses: function() {
-                const cList = document.getElementById('course-list'); cList.innerHTML = '';
-                DATA.courses.forEach(c => {
-                    const isBought = (this.user.owned || []).includes(c.id);
-                    cList.innerHTML += `
+            renderCourses: function(data) {
+                const cont = document.getElementById('course-list'); cont.innerHTML = '';
+                const select = document.getElementById('target-course-select'); select.innerHTML = '';
+                if(!data) return;
+                Object.entries(data).forEach(([id, c]) => {
+                    let opt = document.createElement('option'); opt.value = id; opt.text = c.name; select.add(opt);
+                    const owned = (this.user.owned || []).includes(id);
+                    cont.innerHTML += `
                     <div class="glass" style="display:flex; justify-content:space-between; align-items:center;">
                         <div><b>${c.name}</b><br><small>${c.price} ج</small></div>
-                        ${isBought ? `<button class="neo-btn" style="width:100px; background:var(--success)" onclick="app.openCourse('${c.id}', '${c.name}')">فتح</button>` :
-                        `<button class="neo-btn" style="width:100px" onclick="app.addToCart('${c.id}', 'course')">شراء</button>`}
+                        <button class="neo-btn" style="width:100px" onclick="${owned ? `app.openCourse('${id}')` : `app.buyCourse('${id}', ${c.price}, '${c.name}')`}">${owned ? 'مشاهدة' : 'شراء'}</button>
                     </div>`;
                 });
             },
 
-            renderStore: function(dbBooks) {
-                const bStore = document.getElementById('book-store'); bStore.innerHTML = '';
-                const baseBooks = [
-                    { id: 'b1', name: 'مذكرة العضوية 🍌', price: 85 },
-                    { id: 'b2', name: 'كتاب الأسئلة الشامل', price: 110 }
-                ];
-                const allBooks = [...baseBooks, ...(dbBooks ? Object.values(dbBooks) : [])];
+            buyCourse: function(id, price, name) {
+                if(this.user.balance < price) return this.alert("عذراً", "رصيدك لا يكفي لشراء الكورس، تواصل مع المستر للشحن", "warning");
+                Swal.fire({ title: 'تأكيد شراء', text: `هل تريد شراء كورس ${name} بـ ${price} ج؟`, icon: 'question', showCancelButton: true }).then(async r => {
+                    if(r.isConfirmed) {
+                        let owned = [...(this.user.owned || []), id];
+                        await update(ref(db, 'users/' + this.user.phone), { 
+                            balance: this.user.balance - price, 
+                            totalSpent: (this.user.totalSpent || 0) + price, 
+                            owned 
+                        });
+                        this.logActivity(this.user.phone, this.user.name, `اشترى كورس: ${name} بقيمة ${price} ج 🎬`);
+                        this.alert("مبروك", "تم فتح الكورس بنجاح! استمتع بالمشاهدة", "success");
+                    }
+                });
+            },
+
+            openCourse: async function(id) {
+                const snap = await get(ref(db, `content/courses/${id}`));
+                const c = snap.val();
+                let lecturesHtml = '';
+                if(c.lectures) {
+                    Object.values(c.lectures).forEach(l => {
+                        lecturesHtml += `<div class="lecture-box" style="background:rgba(255,255,255,0.05); padding:15px; border-radius:12px; margin-bottom:12px; border:1px solid var(--border);">
+                            <b style="color:var(--p)">${l.title}</b><br>
+                            <button class="neo-btn" style="height:40px; margin-top:10px" onclick="app.playVideo('${l.ytid}', '${l.title}')"><i class="fas fa-play"></i> تشغيل المحاضرة</button>
+                        </div>`;
+                    });
+                }
+                Swal.fire({ title: c.name, html: lecturesHtml || 'لا توجد محاضرات حالياً في هذا الكورس', showConfirmButton: false, background: '#050508', color: '#fff', width: '90%' });
+            },
+
+            playVideo: function(ytid, title) {
+                this.logActivity(this.user.phone, this.user.name, `بدأ بمشاهدة فيديو: ${title} 📺`);
+                Swal.fire({
+                    html: `<iframe width="100%" height="315" src="https://www.youtube.com/embed/${ytid}?rel=0" frameborder="0" allowfullscreen></iframe>`,
+                    showConfirmButton: false, width: '95%', background: '#000'
+                });
+            },
+
+            renderBooks: function(data) {
+                const cont = document.getElementById('book-store'); cont.innerHTML = '';
+                if(!data) return;
+                Object.entries(data).forEach(([id, b]) => {
+                    cont.innerHTML += `<div class="glass" style="text-align:center">
+                        <i class="fas fa-book-open" style="font-size:30px; color:var(--p); margin-bottom:10px"></i><br>
+                        <b>${b.name}</b><br><small>${b.price} ج</small>
+                        <button class="neo-btn" style="margin-top:15px; height:40px" onclick="app.buyBook('${b.name}', ${b.price})">طلب الكتاب</button>
+                    </div>`;
+                });
+            },
+
+            buyBook: function(name, price) {
+                const msg = `أنا الطالب: ${this.user.name}\nرقمي: ${this.user.phone}\nمحتاج أطلب كتاب: ${name}\nالمبلغ المطلوب: ${price} ج`;
+                window.open(`https://wa.me/201159562785?text=${encodeURIComponent(msg)}`);
+                this.logActivity(this.user.phone, this.user.name, `طلب شراء كتاب: ${name} (واتساب) 📚`);
+            },
+
+            adminModifyBalance: async function(type) {
+                const p = document.getElementById('adm-phone').value, am = parseInt(document.getElementById('adm-amount').value);
+                if(!p || !am) return;
+                const snap = await get(ref(db, 'users/' + p));
+                if(!snap.exists()) return this.alert("خطأ", "هذا الطالب غير مسجل بالمنصة", "error");
                 
-                allBooks.forEach(b => {
-                    bStore.innerHTML += `<div class="glass" style="text-align:center">
-                        <small>${b.name}</small><br><b>${b.price} ج</b><br>
-                        <button class="neo-btn" style="padding:5px; margin-top:10px; font-size:12px" onclick="app.addToCart('${b.id}', 'book', '${b.name}', ${b.price})">أضف للسلة</button>
-                    </div>`;
+                const current = snap.val().balance || 0;
+                const next = (type === 'add' ? current + am : current - am);
+                await update(ref(db, 'users/' + p), { balance: Math.max(0, next) });
+                
+                const logMsg = `${type === 'add' ? 'شحن رصيد بقيمة' : 'سحب رصيد بقيمة'} ${am} ج من قبل الإدارة`;
+                // نسجل اللوج للطالب وللأدمن
+                this.logActivity(p, snap.val().name, logMsg);
+                this.alert("تمت العملية", `تم تعديل رصيد ${snap.val().name} بنجاح`, "success");
+            },
+
+            adminAddItem: async function() {
+                const type = document.getElementById('add-type').value, n = document.getElementById('new-item-name').value, pr = parseInt(document.getElementById('new-item-price').value);
+                if(!n || !pr) return;
+                await push(ref(db, `content/${type}`), { name: n, price: pr });
+                this.alert("تم", "تمت إضافة المحتوى للمتجر بنجاح", "success");
+            },
+
+            adminAddLecture: async function() {
+                const cid = document.getElementById('target-course-select').value, t = document.getElementById('new-lec-title').value, id = document.getElementById('new-lec-ytid').value;
+                if(!cid || !t || !id) return;
+                await push(ref(db, `content/courses/${cid}/lectures`), { title: t, ytid: id });
+                this.alert("تم", "تمت إضافة المحاضرة للكورس", "success");
+            },
+
+            renderAdminDelete: function() {
+                onValue(ref(db, 'content'), s => {
+                    const cont = document.getElementById('admin-delete-list'); cont.innerHTML = '';
+                    const data = s.val(); if(!data) return;
+                    ['courses', 'books'].forEach(type => {
+                        if(data[type]) Object.entries(data[type]).forEach(([id, item]) => {
+                            cont.innerHTML += `<div class="glass" style="display:flex; justify-content:space-between; align-items:center; padding:15px">
+                                <span>${type==='courses'?'🎬':'📚'} ${item.name}</span>
+                                <button class="neo-btn btn-danger" style="width:80px; height:35px; padding:0" onclick="app.deleteItem('${type}', '${id}')">حذف</button>
+                            </div>`;
+                        });
+                    });
                 });
             },
 
-            addToCart: function(id, type, name="", price=0) {
-                if (type === 'course' && ((this.user.owned || []).includes(id) || this.cart.find(i => i.id === id))) {
-                    return this.alert("يا بطل!", "الكورس ده عندك فعلاً أو في السلة.", "warning");
-                }
-                let item = type === 'course' ? DATA.courses.find(c => c.id === id) : {id, name, price, type: 'book'};
-                this.cart.push(item);
-                this.updateCartUI();
-                Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'رميت في السلة 🛒', showConfirmButton: false, timer: 1000 });
-            },
-
-            updateCartUI: function() {
-                const list = document.getElementById('cart-items'); list.innerHTML = '';
-                let total = 0;
-                this.cart.forEach((item, idx) => {
-                    total += parseInt(item.price);
-                    list.innerHTML += `<div class="glass" style="display:flex; justify-content:space-between; align-items:center; padding: 15px;">
-                        <span>${item.name}</span>
-                        <b>${item.price} ج <i class="fas fa-trash" style="color:var(--danger); cursor:pointer" onclick="app.removeFromCart(${idx})"></i></b>
-                    </div>`;
-                });
-                document.getElementById('cart-total').innerText = total;
-                document.getElementById('cart-total-box').style.display = this.cart.length ? 'block' : 'none';
-            },
-
-            removeFromCart: function(idx) { this.cart.splice(idx,1); this.updateCartUI(); },
-
-            confirmPurchase: function() {
-                const total = document.getElementById('cart-total').innerText;
-                let itemsList = this.cart.map(i => i.name).join(', ');
-                Swal.fire({
-                    title: 'تأكيد عملية الشراء؟',
-                    text: `هيتم خصم ${total} ج من رصيدك مقابل: ${itemsList}`,
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'إخصم يا موزة ✅',
-                    cancelButtonText: 'لأ استنى',
-                    background: '#050508', color: '#fff'
-                }).then((result) => { if (result.isConfirmed) this.checkout(); });
-            },
-
-            checkout: async function() {
-                if(this.isProcessing) return;
-                let total = parseInt(document.getElementById('cart-total').innerText);
-                if(this.user.balance < total) return this.alert("عذراً", "رصيدك مش مكفي شحن يا موزة 🍌", "warning");
-
-                this.isProcessing = true;
-                const newBalance = this.user.balance - total;
-                const newTotalSpent = (this.user.totalSpent || 0) + total;
-                const newlyOwned = this.cart.filter(i => i.type === 'course').map(i => i.id);
-                const updatedOwned = Array.from(new Set([...(this.user.owned || []), ...newlyOwned]));
-
-                try {
-                    await update(ref(db, 'users/' + this.user.phone), { balance: newBalance, owned: updatedOwned, totalSpent: newTotalSpent });
-                    this.logActivity(this.user.phone, this.user.name, `اشترى حاجات بـ ${total} ج 🛍️`, "sub");
-                    confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-                    const msg = `أنا الطالب: ${this.user.name}\nاشتريت حاجات بـ ${total} ج\nرصيدي المتبقي: ${newBalance} ج\nأرجو تفعيل المحتوى.`;
-                    window.open(`https://wa.me/201159562785?text=${encodeURIComponent(msg)}`);
-                    this.cart = []; this.updateCartUI();
-                    this.alert("تم الشحن بنجاح!", "المحتوى اتفتح، اتفرج بقى يا بطل 🍌", "success");
-                    this.isProcessing = false;
-                    window.show('dash');
-                } catch(e) { this.isProcessing = false; }
-            },
-
-            openCourse: function(id, name) {
-                if(!(this.user.owned || []).includes(id)) {
-                    this.logActivity(this.user.phone, this.user.name, `محاولة دخول فاشلة لكورس ${name} ⚠️`, "sub");
-                    window.show('cart');
-                    return this.alert("إقف عندك!", "اشترك في الكورس أولاً يا بطل عشان تشوف العظمة.", "warning");
-                }
-                document.getElementById('current-course-title').innerText = name;
-                window.show('courseContent');
-                this.updateProgressUI(id);
-                const cont = document.getElementById('lectures-container'); cont.innerHTML = '';
-                DATA.lectures.forEach(l => {
-                    cont.innerHTML += `
-                    <div class="lecture-box">
-                        <b>${l.title}</b>
-                        <div class="lecture-btns">
-                            <button class="lec-btn" onclick="app.viewVideo('${l.videoId}', '${l.title}', '${id}', '${l.id}')"><i class="fas fa-play"></i> فيديو</button>
-                            <button class="lec-btn" onclick="app.viewPDF()"><i class="fas fa-file-pdf"></i> ملزمة</button>
-                            <button class="lec-btn"><i class="fas fa-pen"></i> اختبار</button>
-                        </div>
-                    </div>`;
-                });
-            },
-
-            viewVideo: async function(vId, title, cId, lId) {
-                const progressKey = `progress/${cId}/${lId}`;
-                await update(ref(db, 'users/' + this.user.phone), { [progressKey]: true });
-                this.logActivity(this.user.phone, this.user.name, `شاهد فيديو: ${title} 📺`, "view");
-                this.updateProgressUI(cId);
-                Swal.fire({ 
-                    html: `<div style="position:relative;padding-bottom:56.25%;height:0;"><iframe src="https://www.youtube.com/embed/${vId}" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allowfullscreen></iframe></div>`,
-                    showConfirmButton: false, background: '#000', width: '95%' 
-                });
-            },
-
-            updateProgressUI: function(cId) {
-                const userProgress = this.user.progress?.[cId] || {};
-                const percent = (Object.keys(userProgress).length / DATA.lectures.length) * 100;
-                document.getElementById('course-progress-bar').style.width = percent + '%';
-            },
-
-            viewPDF: function() { this.alert("تحذير ⚠️", "ممنوع تصوير الملازم أو نشرها.. مستر موزة بيشوفك! 🍌", "info"); },
-
-            logActivity: function(phone, name, action, type) {
-                const logData = { name, phone, action, type, date: new Date().toLocaleString('ar-EG') };
-                push(ref(db, 'logs/' + phone), logData);
-                push(ref(db, 'global_logs'), logData);
-            },
-
-            clearUserLogs: async function(phone) {
-                Swal.fire({
-                    title: 'مسح السجل؟',
-                    text: "هل أنت متأكد من حذف تاريخ نشاطاتك؟",
-                    icon: 'warning',
-                    showCancelButton: true
-                }).then(async (r) => {
-                    if(r.isConfirmed) {
-                        await remove(ref(db, 'logs/' + phone));
-                        this.alert("تم الحذف", "سجلك بقى فلة يا موزة.", "success");
-                    }
-                });
-            },
-
-            adminClearUserLogsFromAdmin: function() {
-                const phone = document.getElementById('adm-del-phone').value;
-                if(!phone) return this.alert("خطأ", "اكتب الرقم!", "error");
-                this.clearUserLogs(phone);
-            },
-
-            adminAddBook: async function() {
-                const name = document.getElementById('new-book-name').value;
-                const price = document.getElementById('new-book-price').value;
-                if(!name || !price) return;
-                await push(ref(db, 'store_books'), { name, price, id: 'dbb_'+Date.now() });
-                this.alert("تم!", "الكتاب نزل المتجر والطلبة هتهجم عليه 🍌", "success");
-            },
-
-            adminModifyBalance: async function(mode) {
-                const phone = document.getElementById('adm-user-phone').value;
-                const amount = parseInt(document.getElementById('adm-amount').value);
-                const snap = await get(ref(db, 'users/' + phone));
-                if(!snap.exists()) return this.alert("خطأ", "مين ده؟ الطالب مش عندي!", "error");
-                let newBal = (mode === 'add') ? (snap.val().balance + amount) : (snap.val().balance - amount);
-                await update(ref(db, 'users/' + phone), { balance: Math.max(0, newBal) });
-                this.logActivity(phone, snap.val().name, `${mode === 'add' ? 'إضافة' : 'سحب'} ${amount} ج من الإدارة 👑`, mode);
-                this.alert("تم!", "المهمة تمت بنجاح يا زعيم.", "success");
-            },
-
-            adminRefund: async function(phone, logKey, amount) {
-                Swal.fire({ title: 'هل تريد إرجاع المنتج؟', text: "سيتم سحب الوصول ورجوع الفلوس للمحفظة.", icon: 'warning', showCancelButton: true }).then(async (r) => {
-                    if(r.isConfirmed) {
-                        const snap = await get(ref(db, 'users/' + phone));
-                        const u = snap.val();
-                        await update(ref(db, 'users/' + phone), { balance: u.balance + parseInt(amount), owned: u.owned.slice(0, -1) });
-                        this.logActivity(phone, u.name, `مرتجع بقيمة ${amount} ج 💰`, "add");
-                        this.alert("تم الارتجاع", "الفلوس رجعت للطالب يا طيب.", "success");
-                    }
+            deleteItem: function(t, id) { 
+                Swal.fire({ title: 'هل أنت متأكد؟', text: "سيتم حذف هذا المحتوى نهائياً", icon: 'warning', showCancelButton: true }).then(r => {
+                    if(r.isConfirmed) remove(ref(db, `content/${t}/${id}`));
                 });
             },
 
             updateAdminStats: function() {
                 onValue(ref(db, 'users'), s => {
-                    const uList = Object.values(s.val() || {});
-                    document.getElementById('stat-students').innerText = uList.length;
-                    let income = 0; uList.forEach(u => income += (u.totalSpent || 0));
+                    const users = Object.values(s.val() || {});
+                    document.getElementById('stat-students').innerText = users.length;
+                    let income = 0; users.forEach(u => income += (u.totalSpent || 0));
                     document.getElementById('stat-income').innerText = income + " ج";
                 });
-                onValue(ref(db, 'store_books'), s => { document.getElementById('stat-books').innerText = Object.keys(s.val() || {}).length + 2; });
             },
 
-            renderAdminLogs: function(data) {
-                const cont = document.getElementById('admin-global-logs');
-                if(!data) { cont.innerHTML = 'لا يوجد سجلات عامة'; return; }
-                cont.innerHTML = Object.entries(data).reverse().map(([key, l]) => `
-                    <div class="log-item" style="flex-direction:column; align-items:start">
-                        <div style="width:100%; display:flex; justify-content:space-between">
-                            <b>${l.name} (${l.phone})</b>
-                            ${l.action.includes('اشترى') ? `<button onclick="app.adminRefund('${l.phone}', '${key}', '${l.action.match(/\d+/)?.[0]}')" style="background:var(--danger); color:#fff; border:none; border-radius:5px; font-size:10px; cursor:pointer">إرجاع</button>` : ''}
-                        </div>
-                        <div class="${l.type === 'add' ? 'log-add' : l.type === 'view' ? 'log-view' : 'log-sub'}">${l.action}</div>
-                        <small style="opacity:0.5">${l.date}</small>
-                    </div>`).join('');
+            logActivity: function(phone, name, msg) {
+                const time = new Date().toLocaleString('ar-EG');
+                const logData = { msg, time, name, phone };
+                push(ref(db, 'logs/' + phone), logData);
+                push(ref(db, 'global_logs'), logData);
             },
 
-            renderUserLogs: function(data) {
-                const cont = document.getElementById('user-logs');
-                if(!data) { cont.innerHTML = 'سجلك فاضي يا أبيض.'; return; }
-                cont.innerHTML = Object.values(data).reverse().map(l => `
+            renderLogs: function(contId, data, isAdminLog = false) {
+                const cont = document.getElementById(contId); cont.innerHTML = '';
+                if(!data) return;
+                Object.values(data).reverse().forEach(l => {
+                    cont.innerHTML += `
                     <div class="log-item">
-                        <span class="${l.type === 'add' ? 'log-add' : l.type === 'view' ? 'log-view' : 'log-sub'}">${l.action}</span>
-                        <small style="opacity:0.5">${l.date}</small>
-                    </div>`).join('');
-            },
-
-            adminClearAllLogs: async function() {
-                Swal.fire({ title: 'تنبيه خطير!', text: "سيتم حذف السجل العام بالكامل نهائياً!", icon: 'error', showCancelButton: true }).then(async (r) => {
-                    if(r.isConfirmed) { await remove(ref(db, 'global_logs')); this.alert("تم", "السجل العام اختفى.", "success"); }
+                        <div class="log-info-box">
+                            ${isAdminLog ? `<span class="log-name">${l.name} (${l.phone})</span>` : ''}
+                            <span>${l.msg}</span>
+                        </div>
+                        <small style="opacity:0.6; min-width:80px; text-align:left">${l.time.split(',')[1] || l.time}</small>
+                    </div>`;
                 });
             },
 
-            confirmLogout: function() {
-                Swal.fire({
-                    title: 'عايز تسيبني يا موزة؟',
-                    text: "دانا اديتك أكبر عضو فيا.. ظوفري! متخرجش يا بطل.",
-                    icon: 'question', showCancelButton: true, confirmButtonText: 'هخرج خلاص', cancelButtonText: 'قاعد لعيونك'
-                }).then((r) => { if(r.isConfirmed) this.logout(); });
-            },
-
-            logout: function() {
-                this.logActivity(this.user.phone, this.user.name, "سجل خروج 🚪", "sub");
-                localStorage.removeItem('moza_user'); location.reload();
-            },
-
-            contactForCharge: function() {
-                const msg = `أنا الطالب: ${this.user.name}\nرقمي: ${this.user.phone}\nرصيدي: ${this.user.balance} ج\nمحافظتي: ${this.user.gov}\nمحتاج أشحن موز يا مستر! 🍌`;
-                window.open(`https://wa.me/201159562785?text=${encodeURIComponent(msg)}`);
-            },
-
-            alert: function(t, txt, i) { Swal.fire({title: t, text: txt, icon: i, confirmButtonColor: '#00f2ff', background: '#050508', color: '#fff'}); },
+            alert: function(t, txt, i) { Swal.fire({title: t, text: txt, icon: i, background: '#050508', color: '#fff', confirmButtonColor: '#00f2ff'}); },
             
+            logout: function() { 
+                this.logActivity(this.user.phone, this.user.name, "سجل خروجه من المنصة 🚪");
+                localStorage.removeItem('moza_user'); location.reload(); 
+            },
+
             bananaRain: function() {
                 for(let i=0; i<30; i++) {
                     const b = document.createElement('div'); b.className = 'banana-emoji'; b.innerText = '🍌';
-                    b.style.left = Math.random() * 100 + 'vw'; b.style.animationDuration = (Math.random() * 2 + 1) + 's';
-                    document.body.appendChild(b); setTimeout(() => b.remove(), 3000);
+                    b.style.left = Math.random() * 100 + 'vw';
+                    b.style.top = '-50px';
+                    const dur = Math.random() * 2 + 1;
+                    b.style.animation = `fall ${dur}s linear forwards`;
+                    document.body.appendChild(b);
+                    setTimeout(() => b.remove(), dur * 1000);
                 }
             }
         };
+
+        // تحريك الموز
+        const style = document.createElement('style');
+        style.innerHTML = `@keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }`;
+        document.head.appendChild(style);
 
         window.show = function(id) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
